@@ -21,6 +21,8 @@ public interface ContratoMain {
         interface OnDataLoadListener {
             public void setCursor(Cursor c);
         }
+
+        void changeCursor(Cursor c);
     }
 
     interface InterfacePresentador {

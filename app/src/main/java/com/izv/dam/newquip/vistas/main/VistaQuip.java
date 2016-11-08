@@ -9,19 +9,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.izv.dam.newquip.R;
+import com.izv.dam.newquip.adaptadores.AdaptadorClick;
 import com.izv.dam.newquip.adaptadores.AdaptadorNota;
 import com.izv.dam.newquip.contrato.ContratoMain;
 import com.izv.dam.newquip.dialogo.DialogoBorrar;
@@ -30,7 +31,7 @@ import com.izv.dam.newquip.pojo.Nota;
 import com.izv.dam.newquip.vistas.notas.VistaNota;
 
 
-public class VistaQuip extends AppCompatActivity implements ContratoMain.InterfaceVista , OnBorrarDialogListener {
+public class VistaQuip extends AppCompatActivity implements ContratoMain.InterfaceVista , OnBorrarDialogListener, AdaptadorClick {
 
     private AdaptadorNota adaptador;
     private PresentadorQuip presentador;
@@ -49,9 +50,9 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
 
         presentador = new PresentadorQuip(this);
 
-        ListView lv = (ListView) findViewById(R.id.lvListaNotas);
-        adaptador = new AdaptadorNota(this, null);
-        lv.setAdapter(adaptador);
+        //TextView lv = (TextView) findViewById(R.id.tvTituloNota);
+        adaptador = new AdaptadorNota(this, null, this);
+        //lv.setAdapter(adaptador);
 
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         //setSupportActionBar(toolbar);
@@ -66,7 +67,7 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 presentador.onEditNota(i);
@@ -80,7 +81,7 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
                 presentador.onShowBorrarNota(i);
                 return true;
             }
-        });
+        });*/
 
 
         //FloatingButtonMenu
@@ -163,7 +164,7 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
 
     @Override
     public void mostrarEditarNota(Nota n) {
-        Toast.makeText(VistaQuip.this, "edit", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "edit", Toast.LENGTH_SHORT).show();
         Intent i = new Intent(this, VistaNota.class);
         Bundle b = new Bundle();
         b.putParcelable("nota", n);
@@ -189,6 +190,16 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
 
     }
 
+    @Override
+    public void onItemClickListener(int pos) {
+        presentador.onEditNota(pos);
+    }
+
+    @Override
+    public void onItemLongClickListener(int pos) {
+        presentador.onShowBorrarNota(pos);
+    }
+
     //tab
 
 
@@ -204,11 +215,11 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return PlaceholderFragment.newInstance(position + 1);
+                    return TabNota.newInstance(position + 1, adaptador, presentador);
                 case 1:
-                    return prueba2.newInstance(position + 1);
+                    return PlaceholderFragment.newInstance(position + 1, adaptador, presentador);
                 case 2:
-                    return PruebaFragment.newInstance(position + 1);
+                    return PruebaFragment.newInstance(position + 1, adaptador, presentador);
             }
             return null;
         }

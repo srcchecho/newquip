@@ -70,4 +70,8 @@ public class PresentadorQuip implements ContratoMain.InterfacePresentador{
         this.onEditNota(n);
     }
 
+    public void changeCursor(Cursor c){
+        this.modelo.changeCursor(c);
+    }
+
 }

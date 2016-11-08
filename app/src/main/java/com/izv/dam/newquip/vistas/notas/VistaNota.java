@@ -112,8 +112,9 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
             return true;
 
         if((checkSelfPermission(WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) &&
-                (checkSelfPermission(CAMERA) == PackageManager.PERMISSION_GRANTED))
+                (checkSelfPermission(CAMERA) == PackageManager.PERMISSION_GRANTED)) {
             return true;
+        }
 
         if((shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE)) || (shouldShowRequestPermissionRationale(CAMERA))){
             Snackbar.make(mRlView, "Los permisos son necesarios para poder usar la aplicación",
@@ -148,12 +149,8 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         int id = item.getItemId();
 
         if (id == R.id.foto) {
-            /*Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);*/
             if(mayRequestStoragePermission()) {
                 mostrarDialogImagen(nota);
-            }else{
-                showExplanation();
             }
             return true;
         }

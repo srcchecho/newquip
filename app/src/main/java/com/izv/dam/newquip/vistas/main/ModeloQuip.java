@@ -45,4 +45,8 @@ public class ModeloQuip implements ContratoMain.InterfaceModelo {
         cursor = gn.getCursor();
         listener.setCursor(cursor);
     }
+
+    public void changeCursor(Cursor c){
+        this.cursor=c;
+    }
 }
