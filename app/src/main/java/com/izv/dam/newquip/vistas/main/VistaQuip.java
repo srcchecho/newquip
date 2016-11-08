@@ -223,6 +223,15 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
+            switch (position) {
+                case 0:
+                    new PruebaFragment();
+                    break;
+                case 1:
+
+                case 2:
+
+            }
             return PlaceholderFragment.newInstance(position + 1);
         }
 
