@@ -191,27 +191,6 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
 
     //tab
 
-    public static class PlaceholderFragment extends Fragment {
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public PlaceholderFragment() {
-        }
-
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_tabbed, container, false);
-            return rootView;
-        }
-    }
-
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -225,14 +204,13 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    new PruebaFragment();
-                    break;
+                    return PlaceholderFragment.newInstance(position + 1);
                 case 1:
-
+                    return prueba2.newInstance(position + 1);
                 case 2:
-
+                    return PruebaFragment.newInstance(position + 1);
             }
-            return PlaceholderFragment.newInstance(position + 1);
+            return null;
         }
 
         @Override

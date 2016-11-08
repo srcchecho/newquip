@@ -10,6 +10,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".vistas.main.VistaQuip">
 
+    <Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button4" />
+
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
