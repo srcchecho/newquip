@@ -1,45 +1,33 @@
-package com.izv.dam.newquip.vistas.main;
+package com.izv.dam.newquip.vistas.Tabbed;
 
-import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.izv.dam.newquip.R;
 import com.izv.dam.newquip.adaptadores.AdaptadorNota;
-import com.izv.dam.newquip.contrato.ContratoMain;
-import com.izv.dam.newquip.dialogo.DialogoBorrar;
-import com.izv.dam.newquip.pojo.Nota;
-import com.izv.dam.newquip.vistas.notas.VistaNota;
-import com.izv.dam.newquip.vistas.main.VistaQuip;
+import com.izv.dam.newquip.vistas.main.PresentadorQuip;
 
 /**
  * Created by dam on 08/11/2016.
  */
 
-public class PlaceholderFragment extends Fragment {
+public class FragmentNotas extends Fragment {
     private static final String ARG_SECTION_NUMBER = "index";
     private static AdaptadorNota adapt;
     private static PresentadorQuip present;
 
-    public PlaceholderFragment() {
+    public FragmentNotas() {
     }
 
-    public static PlaceholderFragment newInstance(int position, AdaptadorNota adaptador, PresentadorQuip presentador) {
+    public static FragmentNotas newInstance(int position, AdaptadorNota adaptador, PresentadorQuip presentador) {
 
         // Instantiate a new fragment
-        PlaceholderFragment fragment = new PlaceholderFragment();
+        FragmentNotas fragment = new FragmentNotas();
         adapt=adaptador;
         present=presentador;
 
@@ -61,7 +49,7 @@ public class PlaceholderFragment extends Fragment {
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        View rootView = inflater.inflate(R.layout.fragment_tabbed, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_notas, container, false);
 
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);

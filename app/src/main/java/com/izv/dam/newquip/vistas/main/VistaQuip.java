@@ -9,14 +9,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -28,6 +23,9 @@ import com.izv.dam.newquip.contrato.ContratoMain;
 import com.izv.dam.newquip.dialogo.DialogoBorrar;
 import com.izv.dam.newquip.dialogo.OnBorrarDialogListener;
 import com.izv.dam.newquip.pojo.Nota;
+import com.izv.dam.newquip.vistas.Tabbed.FragmentListas;
+import com.izv.dam.newquip.vistas.Tabbed.FragmentNotas;
+import com.izv.dam.newquip.vistas.Tabbed.FragmentUnion;
 import com.izv.dam.newquip.vistas.notas.VistaNota;
 
 
@@ -50,14 +48,8 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
 
         presentador = new PresentadorQuip(this);
 
-        //TextView lv = (TextView) findViewById(R.id.tvTituloNota);
         adaptador = new AdaptadorNota(this, null, this);
-        //lv.setAdapter(adaptador);
 
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
-        //setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
@@ -66,23 +58,6 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-        /*lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                presentador.onEditNota(i);
-            }
-        });
-
-        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(VistaQuip.this, "delete", Toast.LENGTH_SHORT).show();
-                presentador.onShowBorrarNota(i);
-                return true;
-            }
-        });*/
-
 
         //FloatingButtonMenu
 
@@ -212,14 +187,14 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
+            // Return a FragmentNotas (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return TabNota.newInstance(position + 1, adaptador, presentador);
+                    return FragmentUnion.newInstance(position + 1, adaptador, presentador);
                 case 1:
-                    return PlaceholderFragment.newInstance(position + 1, adaptador, presentador);
+                    return FragmentNotas.newInstance(position + 1, adaptador, presentador);
                 case 2:
-                    return PruebaFragment.newInstance(position + 1, adaptador, presentador);
+                    return FragmentListas.newInstance(position + 1, adaptador, presentador);
             }
             return null;
         }

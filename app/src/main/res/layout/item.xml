@@ -8,7 +8,7 @@
         android:id="@+id/cardID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="#F5F194"
+        app:cardBackgroundColor="@color/colorNota"
         android:layout_marginBottom="7dp"
         android:layout_marginLeft="7dp"
         android:layout_marginRight="7dp">
@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tvTituloNota"
                 android:layout_marginTop="2dp"
-                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
                 android:textSize="17sp"
                 android:textStyle="bold"
                 android:fontFamily="casual" />
@@ -35,7 +35,7 @@
                 android:id="@+id/notaT"
                 android:layout_row="1"
                 android:layout_column="0"
-                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
                 android:layout_marginTop="2dp"
                 android:fontFamily="casual" />
         </GridLayout>
