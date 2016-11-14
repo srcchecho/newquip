@@ -106,6 +106,8 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         //imagen = (ImageView) findViewById(R.id.imagen);
     }
 
+
+
     private boolean mayRequestStoragePermission() {
 
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
@@ -148,6 +150,13 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        if (id == R.id.pdf) {
+            if(mayRequestStoragePermission()) {
+                crearPDF();
+            }
+            return true;
+        }
+
         if (id == R.id.foto) {
             if(mayRequestStoragePermission()) {
                 mostrarDialogImagen(nota);
@@ -172,6 +181,9 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void crearPDF() {
     }
 
     private void deleteNota() {

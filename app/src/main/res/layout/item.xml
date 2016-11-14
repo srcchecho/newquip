@@ -19,14 +19,15 @@
 
             <TextView
                 android:text="TextView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvTituloNota"
                 android:layout_marginTop="2dp"
                 android:layout_marginLeft="2dp"
                 android:textSize="17sp"
                 android:textStyle="bold"
-                android:fontFamily="casual" />
+                android:fontFamily="casual"
+                android:textAllCaps="false" />
 
             <TextView
                 android:text="TextView"

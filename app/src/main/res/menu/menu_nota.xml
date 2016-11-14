@@ -4,9 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/pdf"
+        android:icon="@mipmap/pdf_menu"
+        android:title="@string/pdf"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/foto"
         android:icon="@mipmap/adjuntar2"
-        android:title="@string/guardar"
+        android:title="@string/adjuntar"
         app:showAsAction="always" />
 
     <item
