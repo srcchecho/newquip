@@ -35,6 +35,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.CFFFont;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.izv.dam.newquip.R;
 import com.izv.dam.newquip.contrato.ContratoNota;
 import com.izv.dam.newquip.dialogo.DialogoBorrar;
@@ -49,6 +57,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
 
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.SYSTEM_ALERT_WINDOW;
@@ -152,6 +161,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
 
         if (id == R.id.pdf) {
             if(mayRequestStoragePermission()) {
+                Toast.makeText(this, "PDF Generado", Toast.LENGTH_SHORT).show();
                 crearPDF();
             }
             return true;
@@ -184,6 +194,50 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
     }
 
     private void crearPDF() {
+        Document doc = new Document();
+        String outPath = null;
+        String titulo = editTextTitulo.getText().toString();
+        System.out.println("TITULO:" + nota.getTitulo());
+        if(nota.getTitulo().toString() != "") {
+            outPath = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY
+                    + File.separator + nota.getTitulo() + ".pdf";
+        }else{
+            Long timestamp = System.currentTimeMillis() / 1000;
+            outPath = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY
+                    + File.separator + timestamp.toString() + ".pdf";
+        }
+        System.out.println("PATH: " + outPath);
+        try {
+            PdfWriter.getInstance(doc, new FileOutputStream(outPath));
+            doc.open();
+            if(editTextTitulo.getText() != null) {
+                Font font1 = new Font(Font.FontFamily.TIMES_ROMAN, 24, Font.BOLD);
+                doc.add(new Paragraph("Titulo: " + editTextTitulo.getText().toString(), font1));
+            }else{
+                Font font1 = new Font(Font.FontFamily.TIMES_ROMAN, 24, Font.BOLD);
+                doc.add(new Paragraph("Titulo: Sin Titulo", font1));
+            }
+            if(editTextNota.getText() != null) {
+                doc.add(new Paragraph(editTextNota.getText().toString()));
+            }
+            if(nota.getImg() != null) {
+                mPath = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY
+                        + File.separator + nota.getImg();
+                Image image1 = Image.getInstance(mPath);
+                image1.setAbsolutePosition(100f, 100);
+                image1.scaleAbsolute(400, 400);
+                doc.add((Element) image1);
+            }
+            doc.close();
+        }catch (DocumentException e){
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void deleteNota() {
