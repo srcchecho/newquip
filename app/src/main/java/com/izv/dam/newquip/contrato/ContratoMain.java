@@ -2,6 +2,8 @@ package com.izv.dam.newquip.contrato;
 
 import android.database.Cursor;
 
+import com.izv.dam.newquip.pojo.Join;
+import com.izv.dam.newquip.pojo.Lista;
 import com.izv.dam.newquip.pojo.Nota;
 
 public interface ContratoMain {
@@ -10,16 +12,24 @@ public interface ContratoMain {
 
         void close();
 
+        long deleteJoin(Join j);
+
         long deleteNota(int position);
 
         long deleteNota(Nota n);
 
+        Join getJoin(int position);
+
         Nota getNota(int position);
+
+        Lista getLista(int position);
 
         void loadData(OnDataLoadListener listener);
 
         interface OnDataLoadListener {
             public void setCursor(Cursor c);
+
+            void setCursorL(Cursor c);
         }
 
         void changeCursor(Cursor c);
@@ -27,7 +37,13 @@ public interface ContratoMain {
 
     interface InterfacePresentador {
 
+        void onAddLista();
+
         void onAddNota();
+
+        void onDeleteJoin(int position);
+
+        void onDeleteJoin(Join n);
 
         void onDeleteNota(int position);
 
@@ -41,20 +57,38 @@ public interface ContratoMain {
 
         void onResume();
 
+        void onShowBorrarJoin(int position);
+
+        void onShowBorrarLista(int position);
+
         void onShowBorrarNota(int position);
 
+        void onEditLista(Lista l);
+
+        void onEditLista(int position);
     }
 
     interface InterfaceVista {
 
+        void mostrarAgregarLista();
+
         void mostrarAgregarNota();
 
-        void mostrarDatos(Cursor c);
-
-        void mostrarEditarNota(Nota n);
+        void mostrarConfirmarBorrarJoin(Join n);
 
         void mostrarConfirmarBorrarNota(Nota n);
 
+        void mostrarConfirmarBorrarLista(Lista l);
+
+        void mostrarDatosN(Cursor c);
+
+        void mostrarDatosL(Cursor c);
+
+        void mostrarEditarNota(Nota n);
+
+        void mostrarEditarLista(Lista l);
+
+        void onItemClickListenerL(int pos);
     }
 
 }

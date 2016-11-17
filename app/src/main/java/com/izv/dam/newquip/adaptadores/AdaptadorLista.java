@@ -11,35 +11,37 @@ import android.widget.TextView;
 import com.izv.dam.newquip.R;
 import com.izv.dam.newquip.contrato.ContratoBaseDatos;
 
-public class AdaptadorNota extends RecyclerView.Adapter<AdaptadorNota.NotaViewHolder> {
+/**
+ * Created by dam on 17/11/2016.
+ */
 
+public class AdaptadorLista extends RecyclerView.Adapter<AdaptadorLista.ListaViewHolder> {
     private Context context;
     private Cursor dataCursor;
-    private static AdaptadorClickNota click;
+    private static AdaptadorClickLista click;
 
 
-    public AdaptadorNota(Context context,Cursor cursor, AdaptadorClickNota click) {
+    public AdaptadorLista(Context context,Cursor cursor, AdaptadorClickLista click) {
         this.context=context;
         this.dataCursor = cursor;
         this.click = click;
     }
 
     @Override
-    public NotaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
-        NotaViewHolder nota = new NotaViewHolder(v);
-        return nota;
+    public ListaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lista, parent, false);
+        ListaViewHolder lista = new ListaViewHolder(v);
+        return lista;
     }
 
     @Override
-    public void onBindViewHolder(NotaViewHolder holder, int position) {
+    public void onBindViewHolder(ListaViewHolder holder, int position) {
         final Cursor cursor = getItem(position);
-        holder.tvTitulo.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaNota.TITULO)));
-        holder.notaT.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaNota.NOTA)));
-        if(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaNota.TITULO)).trim().compareTo("")==0){
-            holder.tvTitulo.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaNota.TITULO)));
+        holder.tvTituloL.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaLista.TITULO)));
+        if(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaLista.TITULO)).trim().compareTo("")==0){
+            holder.tvTituloL.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaLista.TITULO)));
         }else{
-            holder.tvTitulo.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaNota.TITULO)));
+            holder.tvTituloL.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaLista.TITULO)));
         }
 
     }
@@ -53,7 +55,7 @@ public class AdaptadorNota extends RecyclerView.Adapter<AdaptadorNota.NotaViewHo
         }
     }
 
-    public Cursor changeCursor(Cursor cursor){
+    public Cursor changeCursorL(Cursor cursor){
         if(dataCursor == cursor){
             return null;
         }
@@ -72,28 +74,27 @@ public class AdaptadorNota extends RecyclerView.Adapter<AdaptadorNota.NotaViewHo
         return 0;
     }
 
-    static class NotaViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    static class ListaViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-        TextView tvTitulo, notaT;
+        TextView tvTituloL;
 
-        public NotaViewHolder(View itemView) {
+        public ListaViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
-            tvTitulo = (TextView) itemView.findViewById(R.id.tvTituloNota);
-            notaT = (TextView) itemView.findViewById(R.id.notaT);
+            tvTituloL = (TextView) itemView.findViewById(R.id.tituloLista);
         }
 
         @Override
         public void onClick(View v) {
             int posicion = getAdapterPosition();
-            click.onItemClickListenerN(posicion);
+            click.onItemClickListenerL(posicion);
         }
 
         @Override
         public boolean onLongClick(View v) {
             int posicion = getAdapterPosition();
-            click.onItemLongClickListenerN(posicion);
+            click.onItemLongClickListenerL(posicion);
             return true;
         }
     }

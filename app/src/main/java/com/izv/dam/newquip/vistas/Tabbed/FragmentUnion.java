@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.izv.dam.newquip.R;
-import com.izv.dam.newquip.adaptadores.AdaptadorNota;
+import com.izv.dam.newquip.adaptadores.AdaptadorJoin;
 import com.izv.dam.newquip.vistas.main.PresentadorQuip;
 
 /**
@@ -21,7 +21,7 @@ public class FragmentUnion extends Fragment {
     public FragmentUnion() {
     }
 
-    public static FragmentUnion newInstance(int sectionNumber, AdaptadorNota adaptador, PresentadorQuip presentador) {
+    public static FragmentUnion newInstance(int sectionNumber, AdaptadorJoin adaptador, PresentadorQuip presentador) {
         FragmentUnion fragment = new FragmentUnion();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);

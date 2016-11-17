@@ -33,14 +33,6 @@ public class GestionNota extends Gestion<Nota>{
         return this.delete(ContratoBaseDatos.TablaNota.TABLA, condicion, argumentos);
     }
 
-    /*public int deleteById(String id){
-        return this.deleteById(id + "");
-    }
-
-    public int deleteById(long id, String[] argumentos){
-        return this.deleteById(id, new String[]{"id=?"});
-    }*/
-
     public Nota get(long id) {
         String where = ContratoBaseDatos.TablaNota._ID + " = ? ";
         String[] parametros = {id + ""};

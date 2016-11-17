@@ -11,28 +11,31 @@ import android.widget.TextView;
 import com.izv.dam.newquip.R;
 import com.izv.dam.newquip.contrato.ContratoBaseDatos;
 
-public class AdaptadorNota extends RecyclerView.Adapter<AdaptadorNota.NotaViewHolder> {
+/**
+ * Created by dam on 17/11/2016.
+ */
 
+public class AdaptadorJoin extends RecyclerView.Adapter<AdaptadorJoin.JoinViewHolder> {
     private Context context;
     private Cursor dataCursor;
-    private static AdaptadorClickNota click;
+    private static AdaptadorClickJoin click;
 
 
-    public AdaptadorNota(Context context,Cursor cursor, AdaptadorClickNota click) {
+    public AdaptadorJoin(Context context,Cursor cursor, AdaptadorClickJoin click) {
         this.context=context;
         this.dataCursor = cursor;
         this.click = click;
     }
 
     @Override
-    public NotaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public JoinViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
-        NotaViewHolder nota = new NotaViewHolder(v);
-        return nota;
+        JoinViewHolder join = new JoinViewHolder(v);
+        return join;
     }
 
     @Override
-    public void onBindViewHolder(NotaViewHolder holder, int position) {
+    public void onBindViewHolder(JoinViewHolder holder, int position) {
         final Cursor cursor = getItem(position);
         holder.tvTitulo.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaNota.TITULO)));
         holder.notaT.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaNota.NOTA)));
@@ -72,11 +75,11 @@ public class AdaptadorNota extends RecyclerView.Adapter<AdaptadorNota.NotaViewHo
         return 0;
     }
 
-    static class NotaViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    static class JoinViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         TextView tvTitulo, notaT;
 
-        public NotaViewHolder(View itemView) {
+        public JoinViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
@@ -87,13 +90,13 @@ public class AdaptadorNota extends RecyclerView.Adapter<AdaptadorNota.NotaViewHo
         @Override
         public void onClick(View v) {
             int posicion = getAdapterPosition();
-            click.onItemClickListenerN(posicion);
+            click.onItemClickListenerJ(posicion);
         }
 
         @Override
         public boolean onLongClick(View v) {
             int posicion = getAdapterPosition();
-            click.onItemLongClickListenerN(posicion);
+            click.onItemLongClickListenerJ(posicion);
             return true;
         }
     }

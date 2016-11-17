@@ -17,21 +17,31 @@ import android.widget.Toast;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.izv.dam.newquip.R;
-import com.izv.dam.newquip.adaptadores.AdaptadorClick;
+import com.izv.dam.newquip.adaptadores.AdaptadorClickJoin;
+import com.izv.dam.newquip.adaptadores.AdaptadorClickLista;
+import com.izv.dam.newquip.adaptadores.AdaptadorClickNota;
+import com.izv.dam.newquip.adaptadores.AdaptadorJoin;
+import com.izv.dam.newquip.adaptadores.AdaptadorLista;
 import com.izv.dam.newquip.adaptadores.AdaptadorNota;
 import com.izv.dam.newquip.contrato.ContratoMain;
 import com.izv.dam.newquip.dialogo.DialogoBorrar;
+import com.izv.dam.newquip.dialogo.DialogoBorrarJoin;
 import com.izv.dam.newquip.dialogo.OnBorrarDialogListener;
+import com.izv.dam.newquip.pojo.Join;
+import com.izv.dam.newquip.pojo.Lista;
 import com.izv.dam.newquip.pojo.Nota;
 import com.izv.dam.newquip.vistas.Tabbed.FragmentListas;
 import com.izv.dam.newquip.vistas.Tabbed.FragmentNotas;
 import com.izv.dam.newquip.vistas.Tabbed.FragmentUnion;
+import com.izv.dam.newquip.vistas.listas.VistaLista;
 import com.izv.dam.newquip.vistas.notas.VistaNota;
 
 
-public class VistaQuip extends AppCompatActivity implements ContratoMain.InterfaceVista , OnBorrarDialogListener, AdaptadorClick {
+public class VistaQuip extends AppCompatActivity implements ContratoMain.InterfaceVista , OnBorrarDialogListener, AdaptadorClickNota, AdaptadorClickLista, AdaptadorClickJoin {
 
     private AdaptadorNota adaptador;
+    private AdaptadorJoin adaptadorJ;
+    private AdaptadorLista adaptadorL;
     private PresentadorQuip presentador;
 
     //tabbed
@@ -49,6 +59,8 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
         presentador = new PresentadorQuip(this);
 
         adaptador = new AdaptadorNota(this, null, this);
+        adaptadorJ = new AdaptadorJoin(this, null, this);
+        adaptadorL = new AdaptadorLista(this, null, this);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -69,13 +81,15 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
         floatingActionButton1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 presentador.onAddNota();
+                materialDesignFAM.close(true);
 
             }
         });
 
         floatingActionButton2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //presentador.onAddLista();
+                presentador.onAddLista();
+                materialDesignFAM.close(true);
             }
         });
 
@@ -120,21 +134,27 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
     }
 
     @Override
+    public void mostrarAgregarLista() {
+        Toast.makeText(VistaQuip.this, "add Lista", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this, VistaLista.class);
+        startActivity(i);
+    }
+
+    @Override
     public void mostrarAgregarNota() {
         Toast.makeText(VistaQuip.this, "add Nota", Toast.LENGTH_SHORT).show();
         Intent i = new Intent(this, VistaNota.class);
         startActivity(i);
     }
 
-    /*@Override
-    public void mostrarAgregarLista() {
-        Intent c = new Intent(this, VistaLista.class);
-        startActivity(c);
-    }*/
+    @Override
+    public void mostrarDatosN(Cursor c) {
+        adaptador.changeCursor(c);
+    }
 
     @Override
-    public void mostrarDatos(Cursor c) {
-        adaptador.changeCursor(c);
+    public void mostrarDatosL(Cursor c) {
+        adaptadorL.changeCursorL(c);
     }
 
     @Override
@@ -148,12 +168,34 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
     }
 
     @Override
+    public void mostrarEditarLista(Lista l) {
+        Toast.makeText(VistaQuip.this, "edit", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this, VistaLista.class);
+        Bundle b = new Bundle();
+        b.putParcelable("lista", l);
+        i.putExtras(b);
+        startActivity(i);
+    }
+
+    @Override
     public void mostrarConfirmarBorrarNota(Nota n) {
         DialogoBorrar fragmentBorrar = DialogoBorrar.newInstance(n);
         fragmentBorrar.show(getSupportFragmentManager(), "Dialogo borrar");
 
     }
 
+    @Override
+    public void mostrarConfirmarBorrarLista(Lista l) {
+        DialogoBorrar fragmentBorrar = DialogoBorrar.newInstance(l);
+        fragmentBorrar.show(getSupportFragmentManager(), "Dialogo borrar");
+
+    }
+
+    @Override
+    public void mostrarConfirmarBorrarJoin(Join n) {
+        DialogoBorrarJoin fragmentBorrar = DialogoBorrarJoin.newInstance(n);
+        fragmentBorrar.show(getSupportFragmentManager(), "Dialogo Join borrar");
+    }
 
     @Override
     public void onBorrarPossitiveButtonClick(Nota n) {
@@ -166,13 +208,33 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
     }
 
     @Override
-    public void onItemClickListener(int pos) {
+    public void onItemClickListenerN(int pos) {
         presentador.onEditNota(pos);
     }
 
     @Override
-    public void onItemLongClickListener(int pos) {
+    public void onItemClickListenerL(int pos) {
+        presentador.onEditLista(pos);
+    }
+
+    @Override
+    public void onItemClickListenerJ(int pos) {
+        //Join
+    }
+
+    @Override
+    public void onItemLongClickListenerL(int pos) {
+        presentador.onShowBorrarLista(pos);
+    }
+
+    @Override
+    public void onItemLongClickListenerN(int pos) {
         presentador.onShowBorrarNota(pos);
+    }
+
+    @Override
+    public void onItemLongClickListenerJ(int pos) {
+        //Join
     }
 
     //tab
@@ -190,11 +252,11 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
             // Return a FragmentNotas (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return FragmentUnion.newInstance(position + 1, adaptador, presentador);
+                    return FragmentUnion.newInstance(position + 1, adaptadorJ, presentador);
                 case 1:
                     return FragmentNotas.newInstance(position + 1, adaptador, presentador);
                 case 2:
-                    return FragmentListas.newInstance(position + 1, adaptador, presentador);
+                    return FragmentListas.newInstance(position + 1, adaptadorL, presentador);
             }
             return null;
         }

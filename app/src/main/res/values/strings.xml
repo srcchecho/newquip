@@ -91,4 +91,6 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="pdf">Crear PDF</string>
     <string name="adjuntar">Adjuntar</string>
+    <string name="tituloLista">Titulo</string>
+    <string name="NuevoItemLista">Nuevo Elemento</string>
 </resources>

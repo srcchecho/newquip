@@ -22,6 +22,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -72,8 +73,9 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
     private PresentadorNota presentador;
 
     //camara
-    private static String APP_DIRECTORY = "MyPictureApp/";
-    private static String MEDIA_DIRECTORY = APP_DIRECTORY + "PictureApp";
+    private static String APP_DIRECTORY = "Quip/";
+    private static String MEDIA_DIRECTORY = APP_DIRECTORY + "imagenes";
+    private static String MEDIA_DIRECTORY2 = APP_DIRECTORY + "PDF";
 
     private final int MY_PERMISSIONS = 100;
     private final int PHOTO_CODE = 200;
@@ -161,7 +163,6 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
 
         if (id == R.id.pdf) {
             if(mayRequestStoragePermission()) {
-                Toast.makeText(this, "PDF Generado", Toast.LENGTH_SHORT).show();
                 crearPDF();
             }
             return true;
@@ -194,49 +195,63 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
     }
 
     private void crearPDF() {
-        Document doc = new Document();
-        String outPath = null;
-        String titulo = editTextTitulo.getText().toString();
-        System.out.println("TITULO:" + nota.getTitulo());
-        if(nota.getTitulo().toString() != "") {
-            outPath = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY
-                    + File.separator + nota.getTitulo() + ".pdf";
-        }else{
-            Long timestamp = System.currentTimeMillis() / 1000;
-            outPath = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY
-                    + File.separator + timestamp.toString() + ".pdf";
+        File file = new File(Environment.getExternalStorageDirectory(), MEDIA_DIRECTORY2);
+        boolean isDirectoryCreated = file.exists();
+
+        if(!isDirectoryCreated) {
+            isDirectoryCreated = file.mkdirs();
         }
-        System.out.println("PATH: " + outPath);
-        try {
-            PdfWriter.getInstance(doc, new FileOutputStream(outPath));
-            doc.open();
-            if(editTextTitulo.getText() != null) {
-                Font font1 = new Font(Font.FontFamily.TIMES_ROMAN, 24, Font.BOLD);
-                doc.add(new Paragraph("Titulo: " + editTextTitulo.getText().toString(), font1));
-            }else{
-                Font font1 = new Font(Font.FontFamily.TIMES_ROMAN, 24, Font.BOLD);
-                doc.add(new Paragraph("Titulo: Sin Titulo", font1));
+        if(isDirectoryCreated) {
+            Document doc = new Document();
+            String outPath = null;
+            System.out.println("DATOS:" + nota.getTitulo());
+            if ( nota.getTitulo() == null || nota.getTitulo().isEmpty() ){
+                Snackbar.make(getCurrentFocus(), "Debe guardar la nota para continuar", Snackbar.LENGTH_LONG).show();
+            }else {
+                int tituloLong = nota.getTitulo().length();
+                if (tituloLong != 0) {
+                    outPath = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY2
+                            + File.separator + nota.getTitulo() + "_" + nota.getId() + ".pdf";
+                } else {
+                    Long timestamp = System.currentTimeMillis() / 1000;
+                    outPath = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY2
+                            + File.separator + timestamp.toString() + ".pdf";
+                }
+                System.out.println("PATH:" + outPath);
+                try {
+                    PdfWriter.getInstance(doc, new FileOutputStream(outPath));
+                    doc.open();
+                    if (tituloLong != 0) {
+                        Font font1 = new Font(Font.FontFamily.TIMES_ROMAN, 24, Font.BOLD);
+                        doc.add(new Paragraph("Titulo: " + editTextTitulo.getText().toString(), font1));
+                    } else {
+                        Font font1 = new Font(Font.FontFamily.TIMES_ROMAN, 24, Font.BOLD);
+                        doc.add(new Paragraph("Titulo: Sin Titulo", font1));
+                    }
+                    if (editTextNota.getText() != null) {
+                        doc.add(new Paragraph(editTextNota.getText().toString()));
+                    }
+                    if (nota.getImg() != null) {
+                        mPath = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY
+                                + File.separator + nota.getImg();
+                        Image image1 = Image.getInstance(mPath);
+                        image1.setAbsolutePosition(100f, 100);
+                        image1.scaleAbsolute(400, 400);
+                        doc.add((Element) image1);
+                    }
+                    doc.close();
+                    Snackbar.make(getCurrentFocus(), "PDF Generado con Exito!", Snackbar.LENGTH_LONG).show();
+                } catch (DocumentException e) {
+                    e.printStackTrace();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            if(editTextNota.getText() != null) {
-                doc.add(new Paragraph(editTextNota.getText().toString()));
-            }
-            if(nota.getImg() != null) {
-                mPath = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY
-                        + File.separator + nota.getImg();
-                Image image1 = Image.getInstance(mPath);
-                image1.setAbsolutePosition(100f, 100);
-                image1.scaleAbsolute(400, 400);
-                doc.add((Element) image1);
-            }
-            doc.close();
-        }catch (DocumentException e){
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+
         }
     }
 

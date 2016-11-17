@@ -6,48 +6,37 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 
 import com.izv.dam.newquip.R;
-import com.izv.dam.newquip.pojo.Lista;
-import com.izv.dam.newquip.pojo.Nota;
+import com.izv.dam.newquip.pojo.Join;
 
 /**
- * Created by Pilar on 26/09/2016.
+ * Created by dam on 10/11/16.
  */
 
-public class DialogoBorrar extends DialogFragment {
-    private Nota n;
-    private Lista l;
-    // Interfaz de comunicación
-    OnBorrarDialogListener listener;
+public class DialogoBorrarJoin extends DialogFragment {
+    private Join n;
 
-    public DialogoBorrar() {
+    OnBorrarJoinDialogListener listener;
+
+    public DialogoBorrarJoin() {
     }
 
-    public static DialogoBorrar newInstance(Nota n) {
-        DialogoBorrar fragment = new DialogoBorrar();
+    public static DialogoBorrarJoin newInstance(Join n) {
+        DialogoBorrarJoin fragment = new DialogoBorrarJoin();
         Bundle args = new Bundle();
         args.putParcelable("nota",n);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public static DialogoBorrar newInstance(Lista l) {
-        DialogoBorrar fragment = new DialogoBorrar();
-        Bundle args = new Bundle();
-        args.putParcelable("lista",l);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             n=getArguments().getParcelable("nota");
-            l=getArguments().getParcelable("lista");
         }
     }
 
@@ -56,6 +45,7 @@ public class DialogoBorrar extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return createDialogBorrar();
     }
+
     public AlertDialog createDialogBorrar() {
         String titulo_dialogo= String.format("%s %s", getString(R.string.etiqueta_dialogo_borrar),n.getTitulo());
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -64,7 +54,7 @@ public class DialogoBorrar extends DialogFragment {
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-               listener.onBorrarPossitiveButtonClick(n);
+                listener.onBorrarPossitiveButtonClick(n);
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -82,15 +72,14 @@ public class DialogoBorrar extends DialogFragment {
         super.onAttach(context);
 
         try {
-            listener = (OnBorrarDialogListener) context;
+            listener = (OnBorrarJoinDialogListener) context;
 
         } catch (ClassCastException e) {
             throw new ClassCastException(
                     context.toString() +
-                            " no implementó OnBorrarDialogListener");
-
+                            " no implementó OnBorrarJoinDialogListener");
         }
     }
 
-}
 
+}
