@@ -29,6 +29,11 @@ public class PresentadorQuip implements ContratoMain.InterfacePresentador{
             public void setCursorL(Cursor c) {
                 PresentadorQuip.this.vista.mostrarDatosL(c);
             }
+
+            @Override
+            public void setCursorJ(Cursor c) {
+                PresentadorQuip.this.vista.mostrarDatosJ(c);
+            }
         };
     }
 

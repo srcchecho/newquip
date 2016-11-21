@@ -158,6 +158,11 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
     }
 
     @Override
+    public void mostrarDatosJ(Cursor c) {
+        adaptadorJ.changeCursorJ(c);
+    }
+
+    @Override
     public void mostrarEditarNota(Nota n) {
         Toast.makeText(this, "edit", Toast.LENGTH_SHORT).show();
         Intent i = new Intent(this, VistaNota.class);

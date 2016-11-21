@@ -30,6 +30,8 @@ public interface ContratoMain {
             public void setCursor(Cursor c);
 
             void setCursorL(Cursor c);
+
+            void setCursorJ(Cursor c);
         }
 
         void changeCursor(Cursor c);
@@ -83,6 +85,8 @@ public interface ContratoMain {
         void mostrarDatosN(Cursor c);
 
         void mostrarDatosL(Cursor c);
+
+        void mostrarDatosJ(Cursor c);
 
         void mostrarEditarNota(Nota n);
 

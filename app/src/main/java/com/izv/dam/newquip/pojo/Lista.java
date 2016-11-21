@@ -15,11 +15,12 @@ import com.izv.dam.newquip.contrato.ContratoBaseDatos;
 public class Lista implements Parcelable{
     private long id;
     private String titulo;
+    private int tipo;
 
     public Lista(long id, String titulo) {
         this.id = id;
         this.titulo = titulo;
-
+        this.tipo = 2;
     }
 
     public Lista() {
@@ -53,6 +54,8 @@ public class Lista implements Parcelable{
 
     public String getTitulo(){ return titulo; }
 
+    public int getTipo(){ return tipo; }
+
     public void setTitulo(String titulo) {this.titulo = titulo;}
 
     public ContentValues getContentValues() { return this.getContentValues(false); }
@@ -73,6 +76,8 @@ public class Lista implements Parcelable{
         objeto.setTitulo(c.getString(c.getColumnIndex(ContratoBaseDatos.TablaLista.TITULO)));
         return objeto;
     }
+
+
 
     @Override
     public String toString() {

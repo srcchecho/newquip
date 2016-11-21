@@ -18,7 +18,7 @@ public class ModeloQuip implements ContratoMain.InterfaceModelo {
     private Context c;
     private GestionNota gn = null;
     private GestionLista gl = null;
-    private Cursor cursor, cursorl;
+    private Cursor cursor, cursorl, cursor2;
     private GestionUnion gu = null;
 
     public ModeloQuip(Context c) {
@@ -85,7 +85,8 @@ public class ModeloQuip implements ContratoMain.InterfaceModelo {
         listener.setCursor(cursor);
         cursorl = gl.getCursor();
         listener.setCursorL(cursorl);
-
+        cursor2 = gu.getCursor();
+        listener.setCursorJ(cursor2);
     }
 
     public void changeCursor(Cursor c){

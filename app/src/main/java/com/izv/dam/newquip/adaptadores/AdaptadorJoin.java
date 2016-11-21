@@ -29,7 +29,13 @@ public class AdaptadorJoin extends RecyclerView.Adapter<AdaptadorJoin.JoinViewHo
 
     @Override
     public JoinViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
+        View v = null;
+        if (ContratoBaseDatos.TablaNota.TIPO == "note") {
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
+        }
+        else if (ContratoBaseDatos.TablaLista.TIPO == "list") {
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lista, parent, false);
+        }
         JoinViewHolder join = new JoinViewHolder(v);
         return join;
     }
@@ -37,14 +43,24 @@ public class AdaptadorJoin extends RecyclerView.Adapter<AdaptadorJoin.JoinViewHo
     @Override
     public void onBindViewHolder(JoinViewHolder holder, int position) {
         final Cursor cursor = getItem(position);
-        holder.tvTitulo.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaNota.TITULO)));
-        holder.notaT.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaNota.NOTA)));
-        if(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaNota.TITULO)).trim().compareTo("")==0){
+        if (ContratoBaseDatos.TablaNota.TIPO == "note") {
+            System.out.println("NOTAS");
             holder.tvTitulo.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaNota.TITULO)));
-        }else{
-            holder.tvTitulo.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaNota.TITULO)));
+            holder.notaT.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaNota.NOTA)));
+            if (cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaNota.TITULO)).trim().compareTo("") == 0) {
+                holder.tvTitulo.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaNota.TITULO)));
+            } else {
+                holder.tvTitulo.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaNota.TITULO)));
+            }
+        }else if (ContratoBaseDatos.TablaLista.TIPO == "list"){
+            System.out.println("LISTAS");
+            holder.tituloL.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaLista.TITULO)));
+            if(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaLista.TITULO)).trim().compareTo("")==0){
+                holder.tituloL.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaLista.TITULO)));
+            }else{
+                holder.tituloL.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaLista.TITULO)));
+            }
         }
-
     }
 
     public Cursor getItem(int position) {
@@ -56,7 +72,7 @@ public class AdaptadorJoin extends RecyclerView.Adapter<AdaptadorJoin.JoinViewHo
         }
     }
 
-    public Cursor changeCursor(Cursor cursor){
+    public Cursor changeCursorJ(Cursor cursor){
         if(dataCursor == cursor){
             return null;
         }
@@ -77,14 +93,20 @@ public class AdaptadorJoin extends RecyclerView.Adapter<AdaptadorJoin.JoinViewHo
 
     static class JoinViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-        TextView tvTitulo, notaT;
+        TextView tvTitulo, notaT, tituloL;
 
         public JoinViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
-            tvTitulo = (TextView) itemView.findViewById(R.id.tvTituloNota);
-            notaT = (TextView) itemView.findViewById(R.id.notaT);
+            if (ContratoBaseDatos.TablaNota.TIPO == "note"){
+                tvTitulo = (TextView) itemView.findViewById(R.id.tvTituloNota);
+                notaT = (TextView) itemView.findViewById(R.id.notaT);
+            }else if (ContratoBaseDatos.TablaLista.TIPO == "list"){
+                tituloL = (TextView) itemView.findViewById(R.id.tituloLista);
+                //notaT = (TextView) itemView.findViewById(R.id.notaT);
+            }
+
         }
 
         @Override

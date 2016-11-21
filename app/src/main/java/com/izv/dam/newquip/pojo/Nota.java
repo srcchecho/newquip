@@ -10,7 +10,7 @@ import com.izv.dam.newquip.contrato.ContratoBaseDatos;
 public class Nota implements Parcelable {
 
     private long id;
-    private String titulo, nota, img;
+    private String titulo, nota, img, tipo;
 
     public Nota() {
         this(0, null, null, null);
@@ -20,6 +20,7 @@ public class Nota implements Parcelable {
         this.id = id;
         this.titulo = titulo;
         this.nota = nota;
+        this.tipo = "nota";
         this.img = img;
     }
 
@@ -64,6 +65,10 @@ public class Nota implements Parcelable {
 
     public String getImg() {
         return img;
+    }
+
+    public String getTipo() {
+        return tipo;
     }
 
     public void setImg(String img) {
