@@ -49,6 +49,8 @@ import com.izv.dam.newquip.contrato.ContratoNota;
 import com.izv.dam.newquip.dialogo.DialogoBorrar;
 import com.izv.dam.newquip.dialogo.OnBorrarDialogListener;
 import com.izv.dam.newquip.dialogo.OnImagenDialogListener;
+import com.izv.dam.newquip.pojo.Join;
+import com.izv.dam.newquip.pojo.Lista;
 import com.izv.dam.newquip.pojo.Nota;
 
 import java.io.File;
@@ -70,6 +72,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
     private static final int RESULT_LOAD_IMAGE = 1;
     private EditText editTextTitulo, editTextNota;
     private Nota nota = new Nota();
+    private Join join;
     private PresentadorNota presentador;
 
     //camara
@@ -292,6 +295,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
     private void saveNota() {
         nota.setTitulo(editTextTitulo.getText().toString());
         nota.setNota(editTextNota.getText().toString());
+        nota.setTipo(1);
         long r = presentador.onSaveNota(nota);
         if (r > 0 & nota.getId() == 0) {
             nota.setId(r);
@@ -334,6 +338,11 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
 
         borrar.show();
         onBackPressed();
+    }
+
+    @Override
+    public void onBorrarPossitiveButtonClickL(Lista l) {
+
     }
 
     @Override

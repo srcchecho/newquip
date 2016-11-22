@@ -1,5 +1,6 @@
 package com.izv.dam.newquip.dialogo;
 
+import com.izv.dam.newquip.pojo.Lista;
 import com.izv.dam.newquip.pojo.Nota;
 
 /**
@@ -9,4 +10,6 @@ import com.izv.dam.newquip.pojo.Nota;
 public interface OnBorrarDialogListener {
     void onBorrarPossitiveButtonClick(Nota n);
     void onBorrarNegativeButtonClick();
+
+    void onBorrarPossitiveButtonClickL(Lista l);
 }

@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.itextpdf.text.List;
 import com.izv.dam.newquip.contrato.ContratoBaseDatos;
 
 /**
@@ -15,6 +16,8 @@ public class Join implements Parcelable {
     long id;
     String titulo, texto;
     int tipo;
+    Nota nota;
+    Lista lista;
 
 
     public Join(long id, String titulo, String texto, int tipo) {

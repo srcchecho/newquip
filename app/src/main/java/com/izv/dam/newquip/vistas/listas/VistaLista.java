@@ -14,7 +14,11 @@ import android.widget.Toast;
 
 import com.izv.dam.newquip.R;
 import com.izv.dam.newquip.contrato.ContratoLista;
+import com.izv.dam.newquip.dialogo.DialogoBorrar;
+import com.izv.dam.newquip.dialogo.OnBorrarDialogListener;
+import com.izv.dam.newquip.pojo.Join;
 import com.izv.dam.newquip.pojo.Lista;
+import com.izv.dam.newquip.pojo.Nota;
 
 import java.util.ArrayList;
 
@@ -24,7 +28,7 @@ import static com.izv.dam.newquip.R.string.nota;
  * Created by dam on 18/10/16.
  */
 
-public class VistaLista extends AppCompatActivity implements ContratoLista.InterfaceVista {
+public class VistaLista extends AppCompatActivity implements ContratoLista.InterfaceVista, OnBorrarDialogListener {
 
     private LinearLayout ly;
 
@@ -34,6 +38,8 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
     private PresentadorLista presentador;
     private EditText editTextTitulo;
     private Lista lista = new Lista();
+    private Join join;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,11 +51,11 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
 
         editTextTitulo = (EditText) findViewById(R.id.tituloLista);
 
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             lista = savedInstanceState.getParcelable("lista");
         } else {
             Bundle b = getIntent().getExtras();
-            if(b != null){
+            if (b != null) {
                 lista = b.getParcelable("lista");
             }
         }
@@ -90,18 +96,18 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
         return super.onOptionsItemSelected(item);
     }
 
-    protected void onPause(){
+    protected void onPause() {
         saveLista();
         presentador.onPause();
         super.onPause();
     }
 
-    protected void onResume(){
+    protected void onResume() {
         presentador.onResume();
         super.onResume();
     }
 
-    protected void onSaveInstanceState(Bundle outState){
+    protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable("lista", lista);
     }
@@ -109,7 +115,7 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
     private void saveLista() {
         lista.setTitulo(editTextTitulo.getText().toString());
         long r = presentador.onSaveLista(lista);
-        if(r > 0 & lista.getId() == 0){
+        if (r > 0 & lista.getId() == 0) {
             lista.setId(r);
         }
     }
@@ -132,7 +138,7 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
                 //Recorrer ArrayLista
                 String todo = "";
 
-                for(EditText et:listaEt){
+                for (EditText et : listaEt) {
 
                     // json -> todo += "\"" + et.getText().toString()+ "\"" + ",";
                 }
@@ -163,6 +169,34 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
             }
 
         });
+
+    }
+
+    @Override
+    public void onBorrarPossitiveButtonClick(Nota n) {
+
+    }
+
+    @Override
+    public void onBorrarPossitiveButtonClickL(Lista l) {
+        presentador.onDeleteLista(l);
+        Toast borrar =
+                Toast.makeText(getApplicationContext(),
+                        "Borrado", Toast.LENGTH_SHORT);
+
+        borrar.show();
+        onBackPressed();
+    }
+
+    @Override
+    public void onBorrarNegativeButtonClick() {
+
+    }
+
+    @Override
+    public void mostrarConfirmarBorrarLista(Lista l) {
+        DialogoBorrar fragmentBorrar = DialogoBorrar.newInstance(l);
+        fragmentBorrar.show(getSupportFragmentManager(), "Dialogo borrar");
 
     }
 }

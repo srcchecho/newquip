@@ -10,7 +10,8 @@ import com.izv.dam.newquip.contrato.ContratoBaseDatos;
 public class Nota implements Parcelable {
 
     private long id;
-    private String titulo, nota, img, tipo;
+    private String titulo, nota, img;
+    private int tipo;
 
     public Nota() {
         this(0, null, null, null);
@@ -20,7 +21,7 @@ public class Nota implements Parcelable {
         this.id = id;
         this.titulo = titulo;
         this.nota = nota;
-        this.tipo = "nota";
+        this.tipo = 1;
         this.img = img;
     }
 
@@ -28,6 +29,7 @@ public class Nota implements Parcelable {
         id = in.readLong();
         titulo = in.readString();
         nota = in.readString();
+        tipo = in.readInt();
         img = in.readString();
     }
 
@@ -67,12 +69,16 @@ public class Nota implements Parcelable {
         return img;
     }
 
-    public String getTipo() {
+    public int getTipo() {
         return tipo;
     }
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
     }
 
     public void setTitulo(String titulo) {
@@ -98,6 +104,7 @@ public class Nota implements Parcelable {
         }
         valores.put(ContratoBaseDatos.TablaNota.TITULO, this.getTitulo());
         valores.put(ContratoBaseDatos.TablaNota.NOTA, this.getNota());
+        valores.put(ContratoBaseDatos.TablaNota.TIPO, this.getTipo());
         valores.put(ContratoBaseDatos.TablaNota.IMG, this.getImg());
         return valores;
     }
@@ -107,6 +114,7 @@ public class Nota implements Parcelable {
         objeto.setId(c.getLong(c.getColumnIndex(ContratoBaseDatos.TablaNota._ID)));
         objeto.setTitulo(c.getString(c.getColumnIndex(ContratoBaseDatos.TablaNota.TITULO)));
         objeto.setNota(c.getString(c.getColumnIndex(ContratoBaseDatos.TablaNota.NOTA)));
+        objeto.setTipo(1);
         objeto.setImg(c.getString(c.getColumnIndex(ContratoBaseDatos.TablaNota.IMG)));
         return objeto;
     }
@@ -117,6 +125,7 @@ public class Nota implements Parcelable {
                 "id=" + id +
                 ", titulo='" + titulo + '\'' +
                 ", nota='" + nota + '\'' +
+                ", tipo='" + tipo + '\'' +
                 ", img='" + img + '\'' +
                 '}';
     }
@@ -131,6 +140,7 @@ public class Nota implements Parcelable {
         dest.writeLong(id);
         dest.writeString(titulo);
         dest.writeString(nota);
+        dest.writeInt(tipo);
         dest.writeString(img);
     }
 }

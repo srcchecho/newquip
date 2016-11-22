@@ -213,6 +213,11 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
     }
 
     @Override
+    public void onBorrarPossitiveButtonClickL(Lista l) {
+        presentador.onDeleteLista(l);
+    }
+
+    @Override
     public void onItemClickListenerN(int pos) {
         presentador.onEditNota(pos);
     }

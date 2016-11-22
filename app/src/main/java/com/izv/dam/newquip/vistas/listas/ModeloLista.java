@@ -32,7 +32,8 @@ public class ModeloLista implements ContratoLista.InterfaceModelo {
     }
 
 
-    private long deleteLista(Lista l) {return gl.delete(l);}
+    @Override
+    public long deleteLista(Lista l) {return gl.delete(l);}
 
     @Override
     public long saveLista(Lista l) {

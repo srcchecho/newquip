@@ -14,6 +14,8 @@ public interface ContratoMain {
 
         long deleteJoin(Join j);
 
+        long deleteLista(Lista l);
+
         long deleteNota(int position);
 
         long deleteNota(Nota n);
@@ -52,6 +54,8 @@ public interface ContratoMain {
         void onDeleteNota(Nota n);
 
         void onEditNota(int position);
+
+        void onDeleteLista(Lista l);
 
         void onEditNota(Nota n);
 

@@ -24,4 +24,9 @@ public class PresentadorLista implements ContratoLista.InterfacePresentador {
     public void onResume(){}
 
     public long onSaveLista(Lista l) { return this.modelo.saveLista(l); }
+
+    @Override
+    public long onDeleteLista(Lista n){
+        return this.modelo.deleteLista(n);
+    }
 }

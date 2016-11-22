@@ -67,6 +67,12 @@ public class PresentadorQuip implements ContratoMain.InterfacePresentador{
     }
 
     @Override
+    public void onDeleteLista(Lista l) {
+        this.modelo.deleteLista(l);
+        this.modelo.loadData(oyente);
+    }
+
+    @Override
     public void onEditNota(Nota n) {
         this.vista.mostrarEditarNota(n);
     }

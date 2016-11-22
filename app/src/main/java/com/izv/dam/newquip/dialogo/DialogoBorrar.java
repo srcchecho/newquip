@@ -28,7 +28,8 @@ public class DialogoBorrar extends DialogFragment {
     public static DialogoBorrar newInstance(Nota n) {
         DialogoBorrar fragment = new DialogoBorrar();
         Bundle args = new Bundle();
-        args.putParcelable("nota",n);
+        args.putParcelable("objnota",n);
+        args.putInt("nota", 1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -36,7 +37,8 @@ public class DialogoBorrar extends DialogFragment {
     public static DialogoBorrar newInstance(Lista l) {
         DialogoBorrar fragment = new DialogoBorrar();
         Bundle args = new Bundle();
-        args.putParcelable("lista",l);
+        args.putParcelable("objlista",l);
+        args.putInt("lista", 2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -45,10 +47,14 @@ public class DialogoBorrar extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            n=getArguments().getParcelable("nota");
-            l=getArguments().getParcelable("lista");
+        if (getArguments() != null && getArguments().getInt("nota") == 1) {
+            n=getArguments().getParcelable("objnota");
+            System.out.println(n.toString());
+        }if (getArguments() != null && getArguments().getInt("lista") == 2){
+            l=getArguments().getParcelable("objlista");
+            System.out.println(l.toString());
         }
+        System.out.println("ARGS: " + getArguments().getInt("nota") + " y " + getArguments().getInt("lista"));
     }
 
     @NonNull
@@ -57,24 +63,47 @@ public class DialogoBorrar extends DialogFragment {
         return createDialogBorrar();
     }
     public AlertDialog createDialogBorrar() {
-        String titulo_dialogo= String.format("%s %s", getString(R.string.etiqueta_dialogo_borrar),n.getTitulo());
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(titulo_dialogo);
-        builder.setMessage(R.string.mensaje_confirm_borrar);
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-               listener.onBorrarPossitiveButtonClick(n);
-            }
-        });
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                listener.onBorrarNegativeButtonClick();
-            }
-        });
-        AlertDialog alertBorrar = builder.create();
-        return alertBorrar;
+        if (getArguments().getInt("nota") == 1) {
+            String titulo_dialogo = String.format("%s %s", getString(R.string.etiqueta_dialogo_borrar), n.getTitulo());
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(titulo_dialogo);
+            builder.setMessage(R.string.mensaje_confirm_borrar);
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    listener.onBorrarPossitiveButtonClick(n);
+                }
+            });
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    listener.onBorrarNegativeButtonClick();
+                }
+            });
+            AlertDialog alertBorrar = builder.create();
+            return alertBorrar;
+        }
+        if (getArguments().getInt("lista") == 2) {
+            String titulo_dialogo2 = String.format("%s %s", getString(R.string.etiqueta_dialogo_borrar), l.getTitulo());
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(titulo_dialogo2);
+            builder.setMessage(R.string.mensaje_confirm_borrar2);
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    listener.onBorrarPossitiveButtonClickL(l);
+                }
+            });
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    listener.onBorrarNegativeButtonClick();
+                }
+            });
+            AlertDialog alertBorrar = builder.create();
+            return alertBorrar;
+        }
+        return null;
     }
 
     @Override

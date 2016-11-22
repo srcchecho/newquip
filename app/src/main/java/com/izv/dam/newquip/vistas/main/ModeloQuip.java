@@ -39,6 +39,11 @@ public class ModeloQuip implements ContratoMain.InterfaceModelo {
     }
 
     @Override
+    public long deleteLista(Lista l) {
+        return gl.delete(l);
+    }
+
+    @Override
     public long deleteNota(int position) {
         cursor.moveToPosition(position);
         Nota n = Nota.getNota(cursor);

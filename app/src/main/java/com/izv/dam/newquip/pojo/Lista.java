@@ -30,6 +30,7 @@ public class Lista implements Parcelable{
     protected Lista(Parcel in) {
         id = in.readLong();
         titulo = in.readString();
+        tipo = in.readInt();
     }
 
     public static final Creator<Lista> CREATOR = new Creator<Lista>() {
@@ -58,6 +59,8 @@ public class Lista implements Parcelable{
 
     public void setTitulo(String titulo) {this.titulo = titulo;}
 
+    public void setTipo(int tipo) {this.tipo = tipo;}
+
     public ContentValues getContentValues() { return this.getContentValues(false); }
 
     public ContentValues getContentValues(boolean withId) {
@@ -66,6 +69,7 @@ public class Lista implements Parcelable{
             valores.put(ContratoBaseDatos.TablaLista._ID, this.getId());
         }
         valores.put(ContratoBaseDatos.TablaLista.TITULO, this.getTitulo());
+        valores.put(ContratoBaseDatos.TablaLista.TIPO, this.getTipo());
         return valores;
     }
 
@@ -74,6 +78,7 @@ public class Lista implements Parcelable{
         Lista objeto = new Lista();
         objeto.setId(c.getLong(c.getColumnIndex(ContratoBaseDatos.TablaLista._ID)));
         objeto.setTitulo(c.getString(c.getColumnIndex(ContratoBaseDatos.TablaLista.TITULO)));
+        objeto.setTipo(2);
         return objeto;
     }
 
@@ -83,6 +88,7 @@ public class Lista implements Parcelable{
     public String toString() {
         return "Lista{" +
                 "id=" + id +
+                "tipo=" + tipo +
                 ", titulo='" + titulo + '\'' +
                 '}';
     }

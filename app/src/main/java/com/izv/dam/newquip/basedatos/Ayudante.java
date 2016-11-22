@@ -34,7 +34,7 @@ public class Ayudante extends SQLiteOpenHelper {
                 ContratoBaseDatos.TablaNota._ID + " integer primary key autoincrement , " +
                 ContratoBaseDatos.TablaNota.TITULO + " text, " +
                 ContratoBaseDatos.TablaNota.NOTA + " text, " +
-                ContratoBaseDatos.TablaNota.TIPO + " text, " +
+                ContratoBaseDatos.TablaNota.TIPO + " integer, " +
                 ContratoBaseDatos.TablaNota.IMG + " text " +
                 ")";
         Log.v("sql",sql);
@@ -44,7 +44,7 @@ public class Ayudante extends SQLiteOpenHelper {
         sql="create table if not exists " + ContratoBaseDatos.TablaLista.TABLA +
                 " (" +
                 ContratoBaseDatos.TablaLista._ID + " integer primary key autoincrement , " +
-                ContratoBaseDatos.TablaLista.TIPO + " text, " +
+                ContratoBaseDatos.TablaLista.TIPO + " integer, " +
                 ContratoBaseDatos.TablaLista.TITULO + " text " +
                 ")";
         Log.v("sql", sql);

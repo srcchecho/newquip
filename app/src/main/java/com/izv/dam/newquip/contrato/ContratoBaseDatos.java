@@ -24,7 +24,7 @@ public class ContratoBaseDatos {
         public static final String TABLA = "nota";
         public static final String TITULO = "titulo";
         public static final String NOTA = "nota";
-        public static final String TIPO = "note";
+        public static final String TIPO = "tipo";
         public static final String IMG = "img";
         /*gestor*/
         public static final String[] PROJECTION_ALL = {_ID, TITULO, NOTA, TIPO, IMG};
@@ -38,7 +38,7 @@ public class ContratoBaseDatos {
     public static abstract class TablaLista implements BaseColumns {
         public static final String TABLA = "lista";
         public static final String TITULO = "titulo";
-        public static final String TIPO = "list";
+        public static final String TIPO = "tipo";
         public static final String[] PROJECTION_ALL = {_ID, TITULO, TIPO};
         public static final String SORT_ORDER_DEFAULT = _ID + " desc";
 

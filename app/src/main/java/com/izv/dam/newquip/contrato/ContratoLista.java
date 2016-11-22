@@ -11,6 +11,8 @@ public interface ContratoLista {
 
         void close();
 
+        long deleteLista(Lista l);
+
         long saveLista(Lista n);
 
     }
@@ -23,11 +25,13 @@ public interface ContratoLista {
 
         long onSaveLista(Lista n);
 
+        long onDeleteLista(Lista n);
     }
 
     interface InterfaceVista {
 
         void mostrarLista(Lista n);
 
+        void mostrarConfirmarBorrarLista(Lista l);
     }
 }
