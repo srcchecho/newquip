@@ -17,4 +17,15 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="Blanco" >
+        <item name="android:background">#FFFFFF</item>
+        <item name="colorPrimary">#FFFFFF</item>
+    </style>
+    <style name="Gris" >
+        <item name="android:background">#404040</item>
+    </style>
+    <style name="Madera" >
+        <item name="android:background">#665B45</item>
+    </style>
+
 </resources>

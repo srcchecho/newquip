@@ -1,6 +1,9 @@
 package com.izv.dam.newquip.vistas.Tabbed;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -10,7 +13,10 @@ import android.view.ViewGroup;
 import com.izv.dam.newquip.R;
 import com.izv.dam.newquip.adaptadores.AdaptadorLista;
 import com.izv.dam.newquip.adaptadores.AdaptadorNota;
+import com.izv.dam.newquip.opciones.ActivityOpciones;
 import com.izv.dam.newquip.vistas.main.PresentadorQuip;
+
+import static com.izv.dam.newquip.R.xml.opciones;
 
 /**
  * Created by dam on 07/11/2016.
@@ -58,6 +64,36 @@ public class FragmentListas extends Fragment {
         StaggeredGridLayoutManager linear = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linear);
         recyclerView.setAdapter(adapt);
+
+        //color
+        SharedPreferences sharedPref = this.getActivity().getSharedPreferences("temaValue", Context.MODE_PRIVATE);
+        int tema = sharedPref.getInt("temaValue", 1);
+
+        switch (tema)
+
+        {
+
+            default:
+
+            case 1:
+
+                this.getActivity().setTheme(R.style.Blanco);
+
+                break;
+
+            case 2:
+
+                this.getActivity().setTheme(R.style.Gris);
+
+                break;
+
+            case 3:
+
+                this.getActivity().setTheme(R.style.Madera);
+
+                break;
+
+        }
 
         return rootView;
     }

@@ -1,8 +1,10 @@
 package com.izv.dam.newquip.vistas.main;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -27,6 +29,7 @@ import com.izv.dam.newquip.contrato.ContratoMain;
 import com.izv.dam.newquip.dialogo.DialogoBorrar;
 import com.izv.dam.newquip.dialogo.DialogoBorrarJoin;
 import com.izv.dam.newquip.dialogo.OnBorrarDialogListener;
+import com.izv.dam.newquip.opciones.ActivityOpciones;
 import com.izv.dam.newquip.pojo.Join;
 import com.izv.dam.newquip.pojo.Lista;
 import com.izv.dam.newquip.pojo.Nota;
@@ -93,6 +96,36 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
             }
         });
 
+        //color
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        int tema = sharedPref.getInt("temaValue", 1);
+
+        switch (tema)
+
+        {
+
+            default:
+
+            case 1:
+
+                this.setTheme(R.style.Blanco);
+
+                break;
+
+            case 2:
+
+                this.setTheme(R.style.Gris);
+
+                break;
+
+            case 3:
+
+                this.setTheme(R.style.Madera);
+
+                break;
+
+        }
+
 
     }
 
@@ -114,6 +147,7 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this, ActivityOpciones.class ));
             return true;
         }
 
