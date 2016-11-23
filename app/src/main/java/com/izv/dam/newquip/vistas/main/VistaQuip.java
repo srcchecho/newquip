@@ -228,11 +228,6 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
     }
 
     @Override
-    public void onItemClickListenerJ(int pos) {
-        //Join
-    }
-
-    @Override
     public void onItemLongClickListenerL(int pos) {
         presentador.onShowBorrarLista(pos);
     }
@@ -240,11 +235,6 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
     @Override
     public void onItemLongClickListenerN(int pos) {
         presentador.onShowBorrarNota(pos);
-    }
-
-    @Override
-    public void onItemLongClickListenerJ(int pos) {
-        //Join
     }
 
     //tab

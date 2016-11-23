@@ -30,6 +30,7 @@ public class AdaptadorJoin extends RecyclerView.Adapter<AdaptadorJoin.JoinViewHo
         this.context=context;
         this.dataCursor = cursor;
         this.click = click;
+
         if(dataCursor != null){
             this.tipo = cursor.getInt(3);
         }
@@ -116,9 +117,11 @@ public class AdaptadorJoin extends RecyclerView.Adapter<AdaptadorJoin.JoinViewHo
     static class JoinViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         TextView tvTitulo, notaT, tituloL;
+        int type;
 
         public JoinViewHolder(View itemView, int viewType) {
             super(itemView);
+            type = viewType;
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
             if (viewType == 1){
@@ -135,13 +138,23 @@ public class AdaptadorJoin extends RecyclerView.Adapter<AdaptadorJoin.JoinViewHo
         @Override
         public void onClick(View v) {
             int posicion = getAdapterPosition();
-            click.onItemClickListenerJ(posicion);
+            System.out.println("TIPOx:" + type);
+            if(type == 1){
+                click.onItemClickListenerN(posicion);
+            }else if(type == 2){
+                click.onItemClickListenerL(posicion);
+            }
         }
 
         @Override
         public boolean onLongClick(View v) {
             int posicion = getAdapterPosition();
-            click.onItemLongClickListenerJ(posicion);
+            System.out.println("TIPOy:" + type);
+            if(type == 1){
+                click.onItemLongClickListenerN(posicion);
+            }else if(type == 2){
+                click.onItemLongClickListenerL(posicion);
+            }
             return true;
         }
     }

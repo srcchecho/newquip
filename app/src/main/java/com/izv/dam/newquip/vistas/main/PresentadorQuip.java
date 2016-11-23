@@ -15,13 +15,15 @@ public class PresentadorQuip implements ContratoMain.InterfacePresentador{
     private ContratoMain.InterfaceModelo modelo;
     private ContratoMain.InterfaceVista vista;
     private ContratoMain.InterfaceModelo.OnDataLoadListener oyente;
+    private ContratoMain.InterfaceModelo.OnDataLoadListenerN oyente2;
+    private ContratoMain.InterfaceModelo.OnDataLoadListenerL oyente3;
 
     public PresentadorQuip(ContratoMain.InterfaceVista vista) {
         this.vista = vista;
         this.modelo = new ModeloQuip((Context)vista);
         oyente = new ContratoMain.InterfaceModelo.OnDataLoadListener() {
             @Override
-            public void setCursor(Cursor c) {
+            public void setCursorN(Cursor c) {
                 PresentadorQuip.this.vista.mostrarDatosN(c);
             }
 
@@ -33,6 +35,20 @@ public class PresentadorQuip implements ContratoMain.InterfacePresentador{
             @Override
             public void setCursorJ(Cursor c) {
                 PresentadorQuip.this.vista.mostrarDatosJ(c);
+            }
+        };
+
+        oyente2 = new ContratoMain.InterfaceModelo.OnDataLoadListenerN() {
+            @Override
+            public void setCursorN(Cursor c) {
+                PresentadorQuip.this.vista.mostrarDatosN(c);
+            }
+        };
+
+        oyente3 = new ContratoMain.InterfaceModelo.OnDataLoadListenerL() {
+            @Override
+            public void setCursorL(Cursor c) {
+                PresentadorQuip.this.vista.mostrarDatosL(c);
             }
         };
     }
@@ -63,13 +79,13 @@ public class PresentadorQuip implements ContratoMain.InterfacePresentador{
     @Override
     public void onDeleteNota(Nota n) {
         this.modelo.deleteNota(n);
-        this.modelo.loadData(oyente);
+        this.modelo.loadDataN(oyente2);
     }
 
     @Override
     public void onDeleteLista(Lista l) {
         this.modelo.deleteLista(l);
-        this.modelo.loadData(oyente);
+        this.modelo.loadDataL(oyente3);
     }
 
     @Override
@@ -110,7 +126,13 @@ public class PresentadorQuip implements ContratoMain.InterfacePresentador{
     @Override
     public void onDeleteNota(int position) {
         this.modelo.deleteNota(position);
-        this.modelo.loadData(oyente);
+        this.modelo.loadDataN(oyente2);
+    }
+
+    @Override
+    public void onDeleteLista(int position) {
+        this.modelo.deleteLista(position);
+        this.modelo.loadDataL(oyente3);
     }
 
     @Override
@@ -123,10 +145,6 @@ public class PresentadorQuip implements ContratoMain.InterfacePresentador{
     public void onEditLista(int position) {
         Lista l = this.modelo.getLista(position);
         this.onEditLista(l);
-    }
-
-    public void changeCursor(Cursor c){
-        this.modelo.changeCursor(c);
     }
 
 }

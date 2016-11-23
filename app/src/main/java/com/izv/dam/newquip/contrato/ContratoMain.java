@@ -12,6 +12,8 @@ public interface ContratoMain {
 
         void close();
 
+        long deleteLista(int position);
+
         long deleteJoin(Join j);
 
         long deleteLista(Lista l);
@@ -29,14 +31,24 @@ public interface ContratoMain {
         void loadData(OnDataLoadListener listener);
 
         interface OnDataLoadListener {
-            public void setCursor(Cursor c);
-
-            void setCursorL(Cursor c);
-
-            void setCursorJ(Cursor c);
+            public void setCursorJ(Cursor c);
+            public void setCursorN(Cursor c);
+            public void setCursorL(Cursor c);
         }
 
-        void changeCursor(Cursor c);
+
+        void loadDataN(OnDataLoadListenerN listener);
+
+        interface OnDataLoadListenerN {
+            public void setCursorN(Cursor c);
+        }
+
+        void loadDataL(OnDataLoadListenerL listener);
+
+        interface OnDataLoadListenerL {
+            public void setCursorL(Cursor c);
+        }
+
     }
 
     interface InterfacePresentador {
@@ -52,6 +64,8 @@ public interface ContratoMain {
         void onDeleteNota(int position);
 
         void onDeleteNota(Nota n);
+
+        void onDeleteLista(int position);
 
         void onEditNota(int position);
 

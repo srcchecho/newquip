@@ -18,7 +18,7 @@ public class ModeloQuip implements ContratoMain.InterfaceModelo {
     private Context c;
     private GestionNota gn = null;
     private GestionLista gl = null;
-    private Cursor cursor, cursorl, cursor2;
+    private Cursor cursorN, cursorl, cursorJ;
     private GestionUnion gu = null;
 
     public ModeloQuip(Context c) {
@@ -45,9 +45,16 @@ public class ModeloQuip implements ContratoMain.InterfaceModelo {
 
     @Override
     public long deleteNota(int position) {
-        cursor.moveToPosition(position);
-        Nota n = Nota.getNota(cursor);
+        cursorN.moveToPosition(position);
+        Nota n = Nota.getNota(cursorN);
         return this.deleteNota(n);
+    }
+
+    @Override
+    public long deleteLista(int position) {
+        cursorl.moveToPosition(position);
+        Lista l = Lista.getLista(cursorl);
+        return this.deleteLista(l);
     }
 
     @Override
@@ -65,36 +72,45 @@ public class ModeloQuip implements ContratoMain.InterfaceModelo {
 
     @Override
     public Nota getNota(int position) {
-        cursor.moveToPosition(position);
-        Nota n = Nota.getNota(cursor);
+        cursorN.moveToPosition(position);
+        Nota n = Nota.getNota(cursorN);
         return n;
     }
 
     @Override
     public Lista getLista(int position) {
-        cursor.moveToPosition(position);
-        Lista l = Lista.getLista(cursor);
+        cursorl.moveToPosition(position);
+        Lista l = Lista.getLista(cursorl);
         return l;
     }
 
     @Override
     public Join getJoin(int position) {
-        cursor.moveToPosition(position);
-        Join n = Join.getJoin(cursor);
+        cursorJ.moveToPosition(position);
+        Join n = Join.getJoin(cursorJ);
         return n;
     }
 
     @Override
     public void loadData(OnDataLoadListener listener) {
-        cursor = gn.getCursor();
-        listener.setCursor(cursor);
+        cursorJ = gu.getCursor();
+        listener.setCursorJ(cursorJ);
+        cursorN = gn.getCursor();
+        listener.setCursorN(cursorN);
         cursorl = gl.getCursor();
         listener.setCursorL(cursorl);
-        cursor2 = gu.getCursor();
-        listener.setCursorJ(cursor2);
     }
 
-    public void changeCursor(Cursor c){
-        this.cursor=c;
+    @Override
+    public void loadDataN(OnDataLoadListenerN listener) {
+        cursorN = gn.getCursor();
+        listener.setCursorN(cursorN);
     }
+
+    @Override
+    public void loadDataL(OnDataLoadListenerL listener) {
+        cursorl = gl.getCursor();
+        listener.setCursorL(cursorl);
+    }
+
 }
