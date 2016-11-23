@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.izv.dam.newquip.R;
 import com.izv.dam.newquip.contrato.ContratoLista;
+import com.izv.dam.newquip.pojo.ContenidoLista;
 import com.izv.dam.newquip.pojo.Lista;
 
 import java.util.ArrayList;
@@ -58,19 +59,14 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_lista, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.guardar) {
             saveLista();
             Toast guardar =
@@ -83,7 +79,6 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
         }
 
         if (id == R.id.borrar) {
-            //mostrarConfirmarBorrarLista(lista);
             return true;
         }
 
@@ -107,10 +102,30 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
     }
 
     private void saveLista() {
+
         lista.setTitulo(editTextTitulo.getText().toString());
         long r = presentador.onSaveLista(lista);
         if(r > 0 & lista.getId() == 0){
             lista.setId(r);
+        }
+
+        //Contenido lista
+        final EditText etTitulo = (EditText) findViewById(R.id.etTitulo);
+        Lista l = new Lista();
+        l.setTitulo(etTitulo.getText().toString());
+
+        for(EditText et:listaEt){
+            ContenidoLista cl = new ContenidoLista();
+
+            cl.setNota(et.getText().toString());
+            cl.setIdlista(lista.getId());
+
+            long rid = presentador.onSaveContenidoLista(cl);
+            if(r > 0 & lista.getId() == 0){
+                lista.setId(r);
+            }
+
+            //Guardar cada uno de los elementos
         }
     }
 
@@ -121,35 +136,8 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
 
     private void init() {
         final EditText etTitulo = (EditText) findViewById(R.id.etTitulo);
-        FloatingActionButton b = (FloatingActionButton) findViewById(R.id.btnAddNuevo);
-        listaEt = new ArrayList<>();
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Lista l = new Lista();
-                l.setTitulo(etTitulo.getText().toString());
-
-                //Recorrer ArrayLista
-                String todo = "";
-
-                for(EditText et:listaEt){
-
-                    // json -> todo += "\"" + et.getText().toString()+ "\"" + ",";
-                }
-                //todo = "[" + todo + "]";
-                //Parte del array Lista
-                //l.setLista(todo);
-                //Toast.makeText(VistaLista.this, l.toString(), Toast.LENGTH_LONG).show();
-
-
-                presentador.onSaveLista(null);
-            }
-        });
-
-        //añadir edt -> EditText et = (EditText) findViewById(R.id.)
-
         ly = (LinearLayout) findViewById(R.id.lladdLista);
-        b = (FloatingActionButton) findViewById(R.id.btnAddNuevo);
+        FloatingActionButton b = (FloatingActionButton) findViewById(R.id.btnAddNuevo);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -3,6 +3,7 @@ package com.izv.dam.newquip.vistas.listas;
 import android.content.Context;
 
 import com.izv.dam.newquip.contrato.ContratoLista;
+import com.izv.dam.newquip.pojo.ContenidoLista;
 import com.izv.dam.newquip.pojo.Lista;
 
 /**
@@ -24,4 +25,6 @@ public class PresentadorLista implements ContratoLista.InterfacePresentador {
     public void onResume(){}
 
     public long onSaveLista(Lista l) { return this.modelo.saveLista(l); }
+
+    public long onSaveContenidoLista(ContenidoLista cl) { return this.modelo.saveContenidoLista(cl); }
 }

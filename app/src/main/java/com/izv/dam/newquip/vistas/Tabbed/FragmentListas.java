@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.izv.dam.newquip.adaptadores.AdaptadorNota;
 import com.izv.dam.newquip.opciones.ActivityOpciones;
 import com.izv.dam.newquip.vistas.main.PresentadorQuip;
 
+import static com.izv.dam.newquip.R.id.container;
 import static com.izv.dam.newquip.R.xml.opciones;
 
 /**
@@ -56,7 +58,7 @@ public class FragmentListas extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        View rootView = inflater.inflate(R.layout.fragment_listas, container, false);
+        /*View rootView = inflater.inflate(R.layout.fragment_listas, container, false);
 
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerL);
         recyclerView.setHasFixedSize(true);
@@ -64,38 +66,52 @@ public class FragmentListas extends Fragment {
         StaggeredGridLayoutManager linear = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linear);
         recyclerView.setAdapter(adapt);
+        */
 
-        //color
-        SharedPreferences sharedPref = this.getActivity().getSharedPreferences("temaValue", Context.MODE_PRIVATE);
-        int tema = sharedPref.getInt("temaValue", 1);
+        SharedPreferences ShPref = this.getActivity().getSharedPreferences("opciones", Context.MODE_PRIVATE);
+        String tema = ShPref.getString("temaValue", "1");
 
-        switch (tema)
-
-        {
-
-            default:
-
-            case 1:
-
-                this.getActivity().setTheme(R.style.Blanco);
-
-                break;
-
-            case 2:
-
-                this.getActivity().setTheme(R.style.Gris);
-
-                break;
-
-            case 3:
-
-                this.getActivity().setTheme(R.style.Madera);
-
-                break;
-
+        if (tema.equals("1")){
+            Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.Blanco);
+            LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
+            View rootView = localInflater.inflate(R.layout.fragment_listas, container, false);
+            RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerL);
+            recyclerView.setHasFixedSize(true);
+            StaggeredGridLayoutManager linear = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+            recyclerView.setLayoutManager(linear);
+            recyclerView.setAdapter(adapt);
+            return rootView;
+        } else if (tema.equals("2")){
+            Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.Gris);
+            LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
+            View rootView = localInflater.inflate(R.layout.fragment_listas, container, false);
+            RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerL);
+            recyclerView.setHasFixedSize(true);
+            StaggeredGridLayoutManager linear = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+            recyclerView.setLayoutManager(linear);
+            recyclerView.setAdapter(adapt);
+            return rootView;
+        } else if (tema.equals("3")){
+            Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.Madera);
+            LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
+            View rootView = localInflater.inflate(R.layout.fragment_listas, container, false);
+            RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerL);
+            recyclerView.setHasFixedSize(true);
+            StaggeredGridLayoutManager linear = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+            recyclerView.setLayoutManager(linear);
+            recyclerView.setAdapter(adapt);
+            return rootView;
+        } else {
+            Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.Madera);
+            LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
+            View rootView = localInflater.inflate(R.layout.fragment_listas, container, false);
+            RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerL);
+            recyclerView.setHasFixedSize(true);
+            StaggeredGridLayoutManager linear = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+            recyclerView.setLayoutManager(linear);
+            recyclerView.setAdapter(adapt);
+            return rootView;
         }
-
-        return rootView;
     }
 
     @Override
@@ -109,5 +125,6 @@ public class FragmentListas extends Fragment {
         present.onResume();
         super.onResume();
     }
+
 }
 

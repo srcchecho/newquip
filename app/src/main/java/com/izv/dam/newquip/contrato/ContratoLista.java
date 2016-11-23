@@ -1,5 +1,6 @@
 package com.izv.dam.newquip.contrato;
 
+import com.izv.dam.newquip.pojo.ContenidoLista;
 import com.izv.dam.newquip.pojo.Lista;
 
 /**
@@ -13,6 +14,7 @@ public interface ContratoLista {
 
         long saveLista(Lista n);
 
+        long saveContenidoLista(ContenidoLista cl);
     }
 
     interface InterfacePresentador {

@@ -23,12 +23,12 @@ public class GestionContenidoL extends Gestion<ContenidoLista> {
 
     @Override
     public long insert(ContenidoLista objeto) {
-        return 0;
+        return this.insert(ContratoBaseDatos.TablaContenidoLista.TABLA, objeto.getContentValues());
     }
 
     @Override
     public long insert(ContentValues objeto) {
-        return 0;
+        return this.insert(ContratoBaseDatos.TablaContenidoLista.TABLA, objeto);
     }
 
     @Override
@@ -38,26 +38,31 @@ public class GestionContenidoL extends Gestion<ContenidoLista> {
 
     @Override
     public int delete(ContenidoLista objeto) {
-        return 0;
+        String condicion = ContratoBaseDatos.TablaContenidoLista._ID + " = ?";
+        String[] argumentos = {objeto.getId() + ""};
+        return this.delete(ContratoBaseDatos.TablaContenidoLista.TABLA, condicion, argumentos);
     }
 
     @Override
     public int update(ContenidoLista objeto) {
-        return 0;
+        ContentValues valores = objeto.getContentValues();
+        String condicion = ContratoBaseDatos.TablaContenidoLista._ID + " = ?";
+        String[] argumentos = { objeto.getId() + "" };
+        return this.update(ContratoBaseDatos.TablaContenidoLista.TABLA, valores, condicion, argumentos);
     }
 
     @Override
     public int update(ContentValues valores, String condicion, String[] argumentos) {
-        return 0;
+        return this.update(ContratoBaseDatos.TablaContenidoLista.TABLA, valores, condicion, argumentos);
     }
 
     @Override
     public Cursor getCursor() {
-        return null;
+        return this.getCursor(ContratoBaseDatos.TablaContenidoLista.TABLA, ContratoBaseDatos.TablaContenidoLista.PROJECTION_ALL, ContratoBaseDatos.TablaContenidoLista.SORT_ORDER_DEFAULT);
     }
 
     @Override
     public Cursor getCursor(String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
-        return null;
+        return this.getCursor(ContratoBaseDatos.TablaContenidoLista.TABLA, columns, selection, selectionArgs, groupBy, having, orderBy);
     }
 }

@@ -3,8 +3,10 @@ package com.izv.dam.newquip.vistas.listas;
 import android.content.Context;
 
 import com.izv.dam.newquip.contrato.ContratoLista;
+import com.izv.dam.newquip.gestion.GestionContenidoL;
 import com.izv.dam.newquip.gestion.GestionLista;
 import com.izv.dam.newquip.gestion.GestionNota;
+import com.izv.dam.newquip.pojo.ContenidoLista;
 import com.izv.dam.newquip.pojo.Lista;
 
 import static android.R.attr.id;
@@ -18,6 +20,7 @@ public class ModeloLista implements ContratoLista.InterfaceModelo {
 
     //GESTION
     private GestionLista gl = null;
+    private GestionContenidoL gcl = null;
 
     public ModeloLista(Context c) {gl = new GestionLista(c);}
 
@@ -60,4 +63,35 @@ public class ModeloLista implements ContratoLista.InterfaceModelo {
         }
         return gl.insert(l);
     }
+
+    //contenido lista
+
+    @Override
+    public long saveContenidoLista(ContenidoLista cl) {
+        long r;
+        if(cl.getId()==0){
+            r = this.insertContenidoLista(cl);
+        } else {
+            r = this.updateContenidoLista(cl);
+        }
+        return r;
+    }
+
+    private long insertContenidoLista(ContenidoLista cl){
+        if(cl.getNota().trim().compareTo("")==0 && cl.getNota().trim().compareTo("")==0){
+            return 0;
+        }
+        return gcl.insert(cl);
+    }
+
+    private long updateContenidoLista(ContenidoLista cl) {
+        if(cl.getNota().trim().compareTo("")==0 && cl.getNota().trim().compareTo("")==0){
+            this.deleteContenidoLista(cl);
+            gcl.delete(cl);
+            return 0;
+        }
+        return gcl.update(cl);
+    }
+
+    private long deleteContenidoLista(ContenidoLista cl) {return gcl.delete(cl);}
 }
