@@ -186,14 +186,12 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
     public void mostrarConfirmarBorrarNota(Nota n) {
         DialogoBorrar fragmentBorrar = DialogoBorrar.newInstance(n);
         fragmentBorrar.show(getSupportFragmentManager(), "Dialogo borrar");
-
     }
 
     @Override
     public void mostrarConfirmarBorrarLista(Lista l) {
         DialogoBorrar fragmentBorrar = DialogoBorrar.newInstance(l);
         fragmentBorrar.show(getSupportFragmentManager(), "Dialogo borrar");
-
     }
 
     @Override
@@ -235,6 +233,16 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
     @Override
     public void onItemLongClickListenerN(int pos) {
         presentador.onShowBorrarNota(pos);
+    }
+
+    @Override
+    public void onItemClickListenerJ(int pos) {
+        presentador.onEditJoin(pos);
+    }
+
+    @Override
+    public void onItemLongClickListenerJ(int pos) {
+        presentador.onShowBorrarJoin(pos);
     }
 
     //tab

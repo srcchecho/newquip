@@ -89,7 +89,7 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
         }
 
         if (id == R.id.borrar) {
-            //mostrarConfirmarBorrarLista(lista);
+            mostrarConfirmarBorrarLista(lista);
             return true;
         }
 

@@ -281,9 +281,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         editTextTitulo.setText(nota.getTitulo());
         editTextNota.setText(nota.getNota());
         String nomImg = nota.getImg();
-        if(nomImg == null){
-
-        }else {
+        if(nomImg != null){
             mPath = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY
                     + File.separator + nomImg;
 

@@ -32,8 +32,6 @@ public interface ContratoMain {
 
         interface OnDataLoadListener {
             public void setCursorJ(Cursor c);
-            public void setCursorN(Cursor c);
-            public void setCursorL(Cursor c);
         }
 
 
@@ -63,6 +61,8 @@ public interface ContratoMain {
 
         void onDeleteNota(int position);
 
+        void onDeleteNotaJ(int position);
+
         void onDeleteNota(Nota n);
 
         void onDeleteLista(int position);
@@ -86,6 +86,8 @@ public interface ContratoMain {
         void onEditLista(Lista l);
 
         void onEditLista(int position);
+
+        void onEditJoin(int position);
     }
 
     interface InterfaceVista {

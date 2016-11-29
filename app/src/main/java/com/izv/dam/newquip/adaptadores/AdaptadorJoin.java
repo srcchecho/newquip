@@ -130,7 +130,6 @@ public class AdaptadorJoin extends RecyclerView.Adapter<AdaptadorJoin.JoinViewHo
             }
             if (viewType == 2){
                 tituloL = (TextView) itemView.findViewById(R.id.tituloLista);
-                //notaT = (TextView) itemView.findViewById(R.id.notaT);
             }
 
         }
@@ -139,22 +138,14 @@ public class AdaptadorJoin extends RecyclerView.Adapter<AdaptadorJoin.JoinViewHo
         public void onClick(View v) {
             int posicion = getAdapterPosition();
             System.out.println("TIPOx:" + type);
-            if(type == 1){
-                click.onItemClickListenerN(posicion);
-            }else if(type == 2){
-                click.onItemClickListenerL(posicion);
-            }
+            click.onItemClickListenerJ(posicion);
         }
 
         @Override
         public boolean onLongClick(View v) {
             int posicion = getAdapterPosition();
             System.out.println("TIPOy:" + type);
-            if(type == 1){
-                click.onItemLongClickListenerN(posicion);
-            }else if(type == 2){
-                click.onItemLongClickListenerL(posicion);
-            }
+            click.onItemLongClickListenerJ(posicion);
             return true;
         }
     }

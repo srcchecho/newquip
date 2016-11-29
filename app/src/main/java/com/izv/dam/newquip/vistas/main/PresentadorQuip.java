@@ -23,16 +23,6 @@ public class PresentadorQuip implements ContratoMain.InterfacePresentador{
         this.modelo = new ModeloQuip((Context)vista);
         oyente = new ContratoMain.InterfaceModelo.OnDataLoadListener() {
             @Override
-            public void setCursorN(Cursor c) {
-                PresentadorQuip.this.vista.mostrarDatosN(c);
-            }
-
-            @Override
-            public void setCursorL(Cursor c) {
-                PresentadorQuip.this.vista.mostrarDatosL(c);
-            }
-
-            @Override
             public void setCursorJ(Cursor c) {
                 PresentadorQuip.this.vista.mostrarDatosJ(c);
             }
@@ -77,6 +67,13 @@ public class PresentadorQuip implements ContratoMain.InterfacePresentador{
     }
 
     @Override
+    public void onDeleteNotaJ(int position) {
+        Join j = this.modelo.getJoin(position);
+        this.modelo.deleteJoin(j);
+        this.modelo.loadData(oyente);
+    }
+
+    @Override
     public void onDeleteNota(Nota n) {
         this.modelo.deleteNota(n);
         this.modelo.loadDataN(oyente2);
@@ -103,12 +100,20 @@ public class PresentadorQuip implements ContratoMain.InterfacePresentador{
     @Override
     public void onResume() {
         this.modelo.loadData(oyente);
+        this.modelo.loadDataN(oyente2);
+        this.modelo.loadDataL(oyente3);
     }
 
     @Override
     public void onShowBorrarJoin(int position) {
         Join j = this.modelo.getJoin(position);
-        this.vista.mostrarConfirmarBorrarJoin(j);
+        if(j.getTipo()==1) {
+            Nota n = new Nota(j.getId(), j.getTitulo(), j.getTexto(), j.getImg());
+            this.vista.mostrarConfirmarBorrarNota(n);
+        }else {
+            Lista l = new Lista(j.getId(), j.getTitulo());
+            this.vista.mostrarConfirmarBorrarLista(l);
+        }
     }
 
     @Override
@@ -147,4 +152,16 @@ public class PresentadorQuip implements ContratoMain.InterfacePresentador{
         this.onEditLista(l);
     }
 
+    @Override
+    public void onEditJoin(int position) {
+        Join j = this.modelo.getJoin(position);
+        if(j.getTipo()==1){
+            Nota n = new Nota(j.getId(), j.getTitulo(), j.getTexto(), j.getImg());
+            this.onEditNota(n);
+        } else {
+            Lista l = new Lista(j.getId(), j.getTitulo());
+            this.onEditLista(l);
+        }
+
+    }
 }

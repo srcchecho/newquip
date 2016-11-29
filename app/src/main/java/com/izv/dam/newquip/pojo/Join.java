@@ -14,10 +14,8 @@ import com.izv.dam.newquip.contrato.ContratoBaseDatos;
 
 public class Join implements Parcelable {
     long id;
-    String titulo, texto;
+    String titulo, texto, img;
     int tipo;
-    Nota nota;
-    Lista lista;
 
 
     public Join(long id, String titulo, String texto, int tipo) {
@@ -25,6 +23,14 @@ public class Join implements Parcelable {
         this.titulo = titulo;
         this.texto = texto;
         this.tipo = tipo;
+    }
+
+    public Join(long id, String titulo, String texto, int tipo, String img) {
+        this.id = id;
+        this.titulo = titulo;
+        this.texto = texto;
+        this.tipo = tipo;
+        this.img = img;
     }
 
     public Join() {
@@ -36,6 +42,9 @@ public class Join implements Parcelable {
         titulo = in.readString();
         texto = in.readString();
         tipo = in.readInt();
+        if(img != null){
+            img = in.readString();
+        }
     }
 
     public static final Creator<Join> CREATOR = new Creator<Join>() {
@@ -80,6 +89,14 @@ public class Join implements Parcelable {
 
     public void setTipo(int tipo) {
         this.tipo = tipo;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 
     public ContentValues getContentValues(){

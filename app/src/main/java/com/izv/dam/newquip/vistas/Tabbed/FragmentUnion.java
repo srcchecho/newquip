@@ -60,7 +60,6 @@ public class FragmentUnion extends Fragment {
         StaggeredGridLayoutManager linear = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linear);
         recyclerView.setAdapter(adapt);
-
         return rootView;
     }
 

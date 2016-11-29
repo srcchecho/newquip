@@ -69,7 +69,6 @@ public class ModeloQuip implements ContratoMain.InterfaceModelo {
         return 0;
     }
 
-
     @Override
     public Nota getNota(int position) {
         cursorN.moveToPosition(position);
@@ -95,10 +94,6 @@ public class ModeloQuip implements ContratoMain.InterfaceModelo {
     public void loadData(OnDataLoadListener listener) {
         cursorJ = gu.getCursor();
         listener.setCursorJ(cursorJ);
-        cursorN = gn.getCursor();
-        listener.setCursorN(cursorN);
-        cursorl = gl.getCursor();
-        listener.setCursorL(cursorl);
     }
 
     @Override
