@@ -1,27 +1,17 @@
 package com.izv.dam.newquip.proveedor;
 
 import android.content.ContentProvider;
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.Log;
 
-import com.izv.dam.newquip.basedatos.Ayudante;
 import com.izv.dam.newquip.contrato.ContratoBaseDatos;
 import com.izv.dam.newquip.gestion.GestionLista;
 import com.izv.dam.newquip.gestion.GestionNota;
 import com.izv.dam.newquip.gestion.GestionUnion;
-
-import static com.izv.dam.newquip.contrato.ContratoBaseDatos.TablaNota.CONTENT_ITEM_TYPE;
-import static com.izv.dam.newquip.contrato.ContratoBaseDatos.TablaNota.CONTENT_TYPE;
 
 /**
  * Created by dam on 2/11/16.
@@ -46,8 +36,8 @@ public class Proveedor extends ContentProvider {
         URI_MATCHER.addURI(ContratoBaseDatos.AUTORIDAD, ContratoBaseDatos.TablaNota.TABLA, TODO_NOTA);//cursor
         URI_MATCHER.addURI(ContratoBaseDatos.AUTORIDAD, ContratoBaseDatos.TablaNota.TABLA + "/#", CONCRETO_NOTA);
 
-        URI_MATCHER.addURI(ContratoBaseDatos.AUTORIDAD, ContratoBaseDatos.TablaLista.TABLA, TODO_LISTA);//cursor
-        URI_MATCHER.addURI(ContratoBaseDatos.AUTORIDAD, ContratoBaseDatos.TablaLista.TABLA + "/#", CONCRETO_LISTA);
+        URI_MATCHER.addURI(ContratoBaseDatos.AUTORIDAD, ContratoBaseDatos.TablaContenidoLista.TABLA, TODO_LISTA);//cursor
+        URI_MATCHER.addURI(ContratoBaseDatos.AUTORIDAD, ContratoBaseDatos.TablaContenidoLista.TABLA + "/#", CONCRETO_LISTA);
 
         URI_MATCHER.addURI(ContratoBaseDatos.AUTORIDAD, ContratoBaseDatos.Join.TABLA, TODO_JOIN);
     }
@@ -72,7 +62,7 @@ public class Proveedor extends ContentProvider {
                 break;
             case CONCRETO_LISTA:
                 id = uri.getLastPathSegment();
-                borrados = gestorLista.delete(ContratoBaseDatos.TablaLista._ID + " = ?",new String[]{id});
+                borrados = gestorLista.delete(ContratoBaseDatos.TablaContenidoLista._ID + " = ?",new String[]{id});
                 break;
         }
         if (borrados > 0) {
@@ -108,7 +98,7 @@ public class Proveedor extends ContentProvider {
                 break;
             case CONCRETO_LISTA:
                 id = uri.getLastPathSegment();
-                c = gestorLista.getCursor(projection, ContratoBaseDatos.TablaLista._ID + " = ?", new String[]{id}, null, null, sortOrder);
+                c = gestorLista.getCursor(projection, ContratoBaseDatos.TablaContenidoLista._ID + " = ?", new String[]{id}, null, null, sortOrder);
                 break;
             case TODO_JOIN:
                 c = gestorUnion.getCursor();
@@ -127,9 +117,9 @@ public class Proveedor extends ContentProvider {
             case CONCRETO_NOTA:
                 return ContratoBaseDatos.TablaNota.CONTENT_ITEM_TYPE;
             case TODO_LISTA:
-                return ContratoBaseDatos.TablaLista.CONTENT_TYPE;
+                return ContratoBaseDatos.TablaContenidoLista.CONTENT_TYPE;
             case CONCRETO_LISTA:
-                return ContratoBaseDatos.TablaLista.CONTENT_ITEM_TYPE;
+                return ContratoBaseDatos.TablaContenidoLista.CONTENT_ITEM_TYPE;
             case TODO_JOIN:
                 return ContratoBaseDatos.Join.CONTENT_TYPE;
         }
@@ -175,7 +165,7 @@ public class Proveedor extends ContentProvider {
                 break;
             case CONCRETO_LISTA:
                 id = uri.getLastPathSegment();
-                valor = gestorLista.update(values, ContratoBaseDatos.TablaLista._ID + " = ?", new String[]{id});
+                valor = gestorLista.update(values, ContratoBaseDatos.TablaContenidoLista._ID + " = ?", new String[]{id});
                 break;
         }
         if (valor > 0) {

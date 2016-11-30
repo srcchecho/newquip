@@ -11,8 +11,8 @@ public class ContratoBaseDatos {
     public final static Uri CONTENT_URI = Uri.parse("content://"+AUTORIDAD);
 
     public static final Uri NOTA_URI = Uri.withAppendedPath(CONTENT_URI, ContratoBaseDatos.TablaNota.TABLA);
-    public static final Uri LISTA_URI = Uri.withAppendedPath(CONTENT_URI, ContratoBaseDatos.TablaLista.TABLA);
-    public static final Uri CONTENIDO_L_URI = Uri.withAppendedPath(CONTENT_URI, TablaContenidoLista.TABLA);
+    public static final Uri LISTA_URI = Uri.withAppendedPath(CONTENT_URI, TablaLista.TABLA);
+    public static final Uri CONTENIDO_L_URI = Uri.withAppendedPath(CONTENT_URI, ContratoBaseDatos.TablaContenidoLista.TABLA);
     public static final Uri JOINNOTALISTA_URI = Uri.withAppendedPath(CONTENT_URI, Join.TABLA);
 
     private ContratoBaseDatos(){

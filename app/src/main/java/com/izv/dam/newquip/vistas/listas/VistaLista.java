@@ -1,19 +1,31 @@
 package com.izv.dam.newquip.vistas.listas;
 
+import android.app.Activity;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.izv.dam.newquip.R;
+import com.izv.dam.newquip.adaptadores.AdaptadorContenidoLista;
+import com.izv.dam.newquip.adaptadores.AdaptadorJoin;
+import com.izv.dam.newquip.contrato.ContratoBaseDatos;
 import com.izv.dam.newquip.contrato.ContratoLista;
+import com.izv.dam.newquip.dialogo.DialogoBorrar;
+import com.izv.dam.newquip.dialogo.DialogoLista;
 import com.izv.dam.newquip.pojo.ContenidoLista;
 import com.izv.dam.newquip.pojo.Lista;
 
@@ -35,10 +47,14 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
     private PresentadorLista presentador;
     private EditText editTextTitulo;
     private Lista lista = new Lista();
+    private AdaptadorContenidoLista adaptadorCL;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista);
+        adaptadorCL = new AdaptadorContenidoLista(this, null, null);
 
         presentador = new PresentadorLista(this); //<-antes del init
 
@@ -132,15 +148,31 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
     @Override
     public void mostrarLista(Lista n) {
         editTextTitulo.setText(lista.getTitulo());
+
+
+
+
+    }
+    //mostrar contenido
+
+
+
+
+    public void mostrarDatosCL(Cursor c){
+        adaptadorCL.changeCursor(c);
     }
 
     private void init() {
         final EditText etTitulo = (EditText) findViewById(R.id.etTitulo);
         ly = (LinearLayout) findViewById(R.id.lladdLista);
-        FloatingActionButton b = (FloatingActionButton) findViewById(R.id.btnAddNuevo);
+        ImageButton b = (ImageButton) findViewById(R.id.btnAddNuevo);
+        listaEt = new ArrayList<>();
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DialogoLista fragmentLista = new DialogoLista();
+                fragmentLista.show(getSupportFragmentManager(), "Dialogo lista");
+
                 ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 EditText et = new EditText(VistaLista.this);
@@ -153,5 +185,6 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
         });
 
     }
+
 }
 

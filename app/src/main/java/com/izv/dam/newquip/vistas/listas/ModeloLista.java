@@ -1,8 +1,10 @@
 package com.izv.dam.newquip.vistas.listas;
 
 import android.content.Context;
+import android.database.Cursor;
 
 import com.izv.dam.newquip.contrato.ContratoLista;
+import com.izv.dam.newquip.contrato.ContratoMain;
 import com.izv.dam.newquip.gestion.GestionContenidoL;
 import com.izv.dam.newquip.gestion.GestionLista;
 import com.izv.dam.newquip.gestion.GestionNota;
@@ -21,6 +23,7 @@ public class ModeloLista implements ContratoLista.InterfaceModelo {
     //GESTION
     private GestionLista gl = null;
     private GestionContenidoL gcl = null;
+    private Cursor cursor, cursorcl;
 
     public ModeloLista(Context c) {gl = new GestionLista(c);}
 
@@ -75,6 +78,12 @@ public class ModeloLista implements ContratoLista.InterfaceModelo {
             r = this.updateContenidoLista(cl);
         }
         return r;
+    }
+
+    @Override
+    public void loadData(OnDataLoadListener listener) {
+        cursor = gcl.getCursor();
+        listener.setCursor(cursor);
     }
 
     private long insertContenidoLista(ContenidoLista cl){

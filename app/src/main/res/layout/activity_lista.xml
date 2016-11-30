@@ -29,23 +29,16 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginLeft="30dp">
 
-                <android.support.design.widget.FloatingActionButton
+                <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-
-                    app:srcCompat="@mipmap/nuevo_item_lista"
+                    app:srcCompat="@drawable/fab_add"
                     android:id="@+id/btnAddNuevo"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginLeft="31dp"
-                    android:layout_marginStart="31dp"
-                    app:backgroundTint="@android:color/transparent"
-                    app:rippleColor="@android:color/transparent"
-                    app:elevation="0dp" />
+                    android:backgroundTint="@color/colorAccent" />
+
 
                 <TextView
                     android:text="@string/NuevoItemLista"

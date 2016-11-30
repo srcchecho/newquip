@@ -1,7 +1,6 @@
 package com.izv.dam.newquip.pojo;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -60,7 +59,7 @@ public class Lista implements Parcelable{
     public ContentValues getContentValues(boolean withId) {
         ContentValues valores = new ContentValues();
         if(withId){
-            valores.put(ContratoBaseDatos.TablaLista._ID, this.getId());
+            valores.put(ContratoBaseDatos.TablaContenidoLista._ID, this.getId());
         }
         valores.put(ContratoBaseDatos.TablaLista.TITULO, this.getTitulo());
         return valores;

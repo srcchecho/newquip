@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvTituloElemento"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="2dp"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:fontFamily="casual"
+                android:textAllCaps="false"
+                android:paddingTop="5dp" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_menu_edit"
+                android:id="@+id/editElemento"
+                android:layout_row="0"
+                android:layout_column="15"
+                android:backgroundTint="@color/colorAccent" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+                android:id="@+id/deleteElemento"
+                android:backgroundTint="@color/colorAccent" />
+
+
+        </GridLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
