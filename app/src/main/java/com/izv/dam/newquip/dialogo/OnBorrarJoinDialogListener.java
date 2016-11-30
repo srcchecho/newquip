@@ -8,6 +8,6 @@ import com.izv.dam.newquip.pojo.Nota;
  */
 
 public interface OnBorrarJoinDialogListener {
-    void onBorrarPossitiveButtonClick(Join n);
-    void onBorrarNegativeButtonClick();
+    void onBorrarPossitiveButtonClickJ(Join n);
+    void onBorrarNegativeButtonClickJ();
 }

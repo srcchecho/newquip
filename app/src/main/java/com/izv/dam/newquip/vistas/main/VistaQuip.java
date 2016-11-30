@@ -27,6 +27,7 @@ import com.izv.dam.newquip.contrato.ContratoMain;
 import com.izv.dam.newquip.dialogo.DialogoBorrar;
 import com.izv.dam.newquip.dialogo.DialogoBorrarJoin;
 import com.izv.dam.newquip.dialogo.OnBorrarDialogListener;
+import com.izv.dam.newquip.dialogo.OnBorrarJoinDialogListener;
 import com.izv.dam.newquip.pojo.Join;
 import com.izv.dam.newquip.pojo.Lista;
 import com.izv.dam.newquip.pojo.Nota;
@@ -37,7 +38,7 @@ import com.izv.dam.newquip.vistas.listas.VistaLista;
 import com.izv.dam.newquip.vistas.notas.VistaNota;
 
 
-public class VistaQuip extends AppCompatActivity implements ContratoMain.InterfaceVista , OnBorrarDialogListener, AdaptadorClickNota, AdaptadorClickLista, AdaptadorClickJoin {
+public class VistaQuip extends AppCompatActivity implements ContratoMain.InterfaceVista , OnBorrarDialogListener, AdaptadorClickNota, AdaptadorClickLista, AdaptadorClickJoin, OnBorrarJoinDialogListener {
 
     private AdaptadorNota adaptador;
     private AdaptadorJoin adaptadorJ;
@@ -213,6 +214,16 @@ public class VistaQuip extends AppCompatActivity implements ContratoMain.Interfa
     @Override
     public void onBorrarPossitiveButtonClickL(Lista l) {
         presentador.onDeleteLista(l);
+    }
+
+    @Override
+    public void onBorrarNegativeButtonClickJ() {
+
+    }
+
+    @Override
+    public void onBorrarPossitiveButtonClickJ(Join l) {
+        presentador.onDeleteJoin(l);
     }
 
     @Override

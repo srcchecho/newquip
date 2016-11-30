@@ -108,11 +108,9 @@ public class PresentadorQuip implements ContratoMain.InterfacePresentador{
     public void onShowBorrarJoin(int position) {
         Join j = this.modelo.getJoin(position);
         if(j.getTipo()==1) {
-            Nota n = new Nota(j.getId(), j.getTitulo(), j.getTexto(), j.getImg());
-            this.vista.mostrarConfirmarBorrarNota(n);
+            this.vista.mostrarConfirmarBorrarJoin(j);
         }else {
-            Lista l = new Lista(j.getId(), j.getTitulo());
-            this.vista.mostrarConfirmarBorrarLista(l);
+            this.vista.mostrarConfirmarBorrarJoin(j);
         }
     }
 

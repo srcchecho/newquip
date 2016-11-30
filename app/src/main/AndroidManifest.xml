@@ -37,7 +37,7 @@
 
         <provider
             android:name=".proveedor.Proveedor"
-            android:authorities="com.izv.dam.newquip.basedatos"
+            android:authorities="com.izv.dam.newquip.proveedor"
             android:enabled="true"
             android:exported="true"></provider>
 

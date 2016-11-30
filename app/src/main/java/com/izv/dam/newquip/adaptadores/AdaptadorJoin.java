@@ -146,7 +146,7 @@ public class AdaptadorJoin extends RecyclerView.Adapter<AdaptadorJoin.JoinViewHo
             int posicion = getAdapterPosition();
             System.out.println("TIPOy:" + type);
             click.onItemLongClickListenerJ(posicion);
-            return true;
+            return false;
         }
     }
 }

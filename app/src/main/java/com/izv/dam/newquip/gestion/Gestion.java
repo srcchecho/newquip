@@ -11,9 +11,11 @@ public abstract class Gestion<T> {
 
     private Ayudante abd;
     private SQLiteDatabase bd;
+    Context c;
 
     public Gestion(Context c) {
         this(c, true);
+        this.c = c;
     }
 
     public Gestion(Context c, boolean write) {

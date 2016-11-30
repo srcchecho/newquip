@@ -54,13 +54,13 @@ public class DialogoBorrarJoin extends DialogFragment {
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                listener.onBorrarPossitiveButtonClick(n);
+                listener.onBorrarPossitiveButtonClickJ(n);
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                listener.onBorrarNegativeButtonClick();
+                listener.onBorrarNegativeButtonClickJ();
             }
         });
         AlertDialog alertBorrar = builder.create();

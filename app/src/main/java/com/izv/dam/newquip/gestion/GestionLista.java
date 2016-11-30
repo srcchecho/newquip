@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import com.izv.dam.newquip.contrato.ContratoBaseDatos;
 import com.izv.dam.newquip.pojo.Lista;
+import com.izv.dam.newquip.proveedor.Proveedor;
 
 /**
  * Created by dam on 21/10/16.
