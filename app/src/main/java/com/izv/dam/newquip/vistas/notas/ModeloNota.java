@@ -1,7 +1,9 @@
 package com.izv.dam.newquip.vistas.notas;
 
 import android.content.Context;
+import android.net.Uri;
 
+import com.izv.dam.newquip.contrato.ContratoBaseDatos;
 import com.izv.dam.newquip.contrato.ContratoNota;
 import com.izv.dam.newquip.gestion.GestionNota;
 import com.izv.dam.newquip.pojo.Nota;
@@ -9,9 +11,11 @@ import com.izv.dam.newquip.pojo.Nota;
 public class ModeloNota implements ContratoNota.InterfaceModelo {
 
     private GestionNota gn = null;
+    Context c;
 
     public ModeloNota(Context c) {
         gn = new GestionNota(c);
+        this.c = c;
     }
 
     @Override
@@ -46,7 +50,13 @@ public class ModeloNota implements ContratoNota.InterfaceModelo {
         if(n.getNota().trim().compareTo("")==0 && n.getTitulo().trim().compareTo("")==0) {
             return 0;
         }
-        return gn.insert(n);
+        String where = "_ID" + n.getId();
+        Uri u = c.getContentResolver().insert(ContratoBaseDatos.NOTA_URI, n.getContentValues());
+        if (u.toString() != null){
+            return 1;
+        }else{
+            return 0;
+        }
     }
 
     private long updateNota(Nota n) {

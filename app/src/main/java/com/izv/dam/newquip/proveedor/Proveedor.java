@@ -1,27 +1,18 @@
 package com.izv.dam.newquip.proveedor;
 
 import android.content.ContentProvider;
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.Log;
 
-import com.izv.dam.newquip.basedatos.Ayudante;
 import com.izv.dam.newquip.contrato.ContratoBaseDatos;
 import com.izv.dam.newquip.gestion.GestionLista;
 import com.izv.dam.newquip.gestion.GestionNota;
 import com.izv.dam.newquip.gestion.GestionUnion;
-
-import static com.izv.dam.newquip.contrato.ContratoBaseDatos.TablaNota.CONTENT_ITEM_TYPE;
-import static com.izv.dam.newquip.contrato.ContratoBaseDatos.TablaNota.CONTENT_TYPE;
+import com.izv.dam.newquip.util.UtilCadenas;
 
 /**
  * Created by dam on 2/11/16.
@@ -33,7 +24,7 @@ public class Proveedor extends ContentProvider {
     private static final UriMatcher URI_MATCHER;
     private static final int TODO_NOTA = 0;
     private static final int CONCRETO_NOTA = 1;
-    private static final int TODO_LISTA= 2;
+    private static final int TODO_LISTA = 2;
     private static final int CONCRETO_LISTA = 3;
     private static final int TODO_JOIN = 4;
 
@@ -61,18 +52,18 @@ public class Proveedor extends ContentProvider {
         int borrados = 0;
         switch (URI_MATCHER.match(uri)) {
             case TODO_NOTA:
-                borrados = gestorNota.delete(selection,selectionArgs);
+                borrados = gestorNota.delete(selection, selectionArgs);
                 break;
             case CONCRETO_NOTA:
                 String id = uri.getLastPathSegment();
-                borrados = gestorNota.delete(ContratoBaseDatos.TablaNota._ID + " = ?",new String[]{id});
+                borrados = gestorNota.delete(ContratoBaseDatos.TablaNota._ID + " = ?", new String[]{id});
                 break;
             case TODO_LISTA:
-                borrados = gestorLista.delete(selection,selectionArgs);
+                borrados = gestorLista.delete(selection, selectionArgs);
                 break;
             case CONCRETO_LISTA:
                 id = uri.getLastPathSegment();
-                borrados = gestorLista.delete(ContratoBaseDatos.TablaLista._ID + " = ?",new String[]{id});
+                borrados = gestorLista.delete(ContratoBaseDatos.TablaLista._ID + " = ?", new String[]{id});
                 break;
         }
         if (borrados > 0) {
@@ -158,24 +149,29 @@ public class Proveedor extends ContentProvider {
     }
 
 
-
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         int valor = 0;
+        String id;
+        String[] newSelectionArgs;
         switch (URI_MATCHER.match(uri)) {
             case TODO_NOTA:
                 valor = gestorNota.update(values, selection, selectionArgs);
                 break;
             case CONCRETO_NOTA:
-                String id = uri.getLastPathSegment();
-                valor = gestorNota.update(values, ContratoBaseDatos.TablaNota._ID + " = ?", new String[]{id});
+                id = uri.getLastPathSegment();
+                selection = UtilCadenas.getCondicionesSql(selection, ContratoBaseDatos.TablaNota._ID + " = ? ");
+                newSelectionArgs = UtilCadenas.getNewArray(selectionArgs, id);
+                valor = gestorNota.update(values, selection, newSelectionArgs);
                 break;
             case TODO_LISTA:
                 valor = gestorLista.update(values, selection, selectionArgs);
                 break;
             case CONCRETO_LISTA:
                 id = uri.getLastPathSegment();
-                valor = gestorLista.update(values, ContratoBaseDatos.TablaLista._ID + " = ?", new String[]{id});
+                selection = UtilCadenas.getCondicionesSql(selection, ContratoBaseDatos.TablaLista._ID + " = ? ");
+                newSelectionArgs = UtilCadenas.getNewArray(selectionArgs, id);
+                valor = gestorLista.update(values, selection, newSelectionArgs);
                 break;
         }
         if (valor > 0) {

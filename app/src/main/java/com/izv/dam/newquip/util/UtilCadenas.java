@@ -5,14 +5,27 @@ package com.izv.dam.newquip.util;
  */
 
 public class UtilCadenas {
-    public String getCondicionesSql (String condicionesIni, String newCondicion){
-        return getCondicionesSql(condicionesIni, newCondicion,"and");
+    public static String getCondicionesSql(String condicionesIni, String newCondiciones) {
+        return getCondicionesSql(condicionesIni, newCondiciones, "and");
     }
 
-    public String getCondicionesSql (String condicionesIni, String newCondicion, String conector){
-        if(condicionesIni.trim().length() == 0 || condicionesIni == null){
-            return newCondicion;
+    public static String getCondicionesSql(String condicionesIni, String newCondiciones, String conector) {
+        if (condicionesIni == null || condicionesIni.trim().length() == 0) {
+            return newCondiciones;
         }
-        return condicionesIni + " " + conector + " " + newCondicion;
+        return condicionesIni + " " + conector + " " + newCondiciones;
+    }
+
+    public static String[] getNewArray(String[] arrayInicial, String parametro) {
+        String[] newArray;
+        if (arrayInicial == null) {
+            return new String[]{parametro};
+        }
+        newArray = new String[arrayInicial.length + 1];
+        for (int i = 0; i < arrayInicial.length; i++) {
+            newArray[i] = arrayInicial[i];
+        }
+        newArray[arrayInicial.length] = parametro;
+        return newArray;
     }
 }

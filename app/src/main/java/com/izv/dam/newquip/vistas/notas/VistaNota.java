@@ -297,6 +297,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         long r = presentador.onSaveNota(nota);
         if (r > 0 & nota.getId() == 0) {
             nota.setId(r);
+
         }
     }
 
