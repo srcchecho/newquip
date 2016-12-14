@@ -1,22 +1,34 @@
 package com.izv.dam.newquip.vistas.listas;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.izv.dam.newquip.R;
+import com.izv.dam.newquip.adaptadores.AdaptadorContenidoLista;
 import com.izv.dam.newquip.contrato.ContratoLista;
 import com.izv.dam.newquip.dialogo.DialogoBorrar;
+import com.izv.dam.newquip.dialogo.DialogoLista;
 import com.izv.dam.newquip.dialogo.OnBorrarDialogListener;
+import com.izv.dam.newquip.dialogo.OnDialogoListaListener;
+import com.izv.dam.newquip.pojo.ContenidoLista;
 import com.izv.dam.newquip.pojo.Join;
 import com.izv.dam.newquip.pojo.Lista;
 import com.izv.dam.newquip.pojo.Nota;
@@ -29,7 +41,7 @@ import static com.izv.dam.newquip.R.string.nota;
  * Created by dam on 18/10/16.
  */
 
-public class VistaLista extends AppCompatActivity implements ContratoLista.InterfaceVista, OnBorrarDialogListener {
+public class VistaLista extends AppCompatActivity implements ContratoLista.InterfaceVista, OnBorrarDialogListener, OnDialogoListaListener {
 
     private LinearLayout ly;
 
@@ -40,6 +52,7 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
     private EditText editTextTitulo;
     private Lista lista = new Lista();
     private Join join;
+    private AdaptadorContenidoLista adaptadorCL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +64,16 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
         init();
 
         editTextTitulo = (EditText) findViewById(R.id.tituloLista);
+
+        adaptadorCL = new AdaptadorContenidoLista(this, null);
+
+        //recyclerView
+        RecyclerView recyclerView = (RecyclerView) this.findViewById(R.id.listaCl);
+        recyclerView.setHasFixedSize(true);
+
+        StaggeredGridLayoutManager linear = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linear);
+        recyclerView.setAdapter(adaptadorCL);
 
         if (savedInstanceState != null) {
             lista = savedInstanceState.getParcelable("lista");
@@ -125,33 +148,20 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
     @Override
     public void mostrarLista(Lista n) {
         editTextTitulo.setText(lista.getTitulo());
+        presentador.setIdLis(lista.getId());
+        System.out.println("ID LISTA: " + lista.getId());
     }
 
     private void init() {
         final EditText etTitulo = (EditText) findViewById(R.id.etTitulo);
-        FloatingActionButton b = (FloatingActionButton) findViewById(R.id.btnAddNuevo);
+        ly = (LinearLayout) findViewById(R.id.lladdLista);
+        ImageButton b = (ImageButton) findViewById(R.id.btnAddNuevo);
         listaEt = new ArrayList<>();
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Lista l = new Lista();
-                l.setTitulo(etTitulo.getText().toString());
-                presentador.onSaveLista(null);
-            }
-        });
-
-        ly = (LinearLayout) findViewById(R.id.lladdLista);
-        b = (FloatingActionButton) findViewById(R.id.btnAddNuevo);
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                EditText et = new EditText(VistaLista.this);
-                et.setLayoutParams(lparams);
-
-                ly.addView(et);
-                listaEt.add(et);
+                DialogoLista fragmentLista = new DialogoLista();
+                fragmentLista.show(getSupportFragmentManager(), "Dialogo lista");
             }
 
         });
@@ -184,6 +194,35 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
         DialogoBorrar fragmentBorrar = DialogoBorrar.newInstance(l);
         fragmentBorrar.show(getSupportFragmentManager(), "Dialogo borrar");
 
+    }
+
+    @Override
+    public void mostrarDatosCL(Cursor c) {
+        System.out.println("Numero: " + c.getCount());
+        adaptadorCL.changeCursor(c);
+    }
+
+    @Override
+    public void onPossitiveButtonClick(DialogFragment dialog) {
+        //insertar elemento
+
+        lista.setTitulo(editTextTitulo.getText().toString());
+        long r = presentador.onSaveLista(lista);
+        if (r > 0 & lista.getId() == 0) {
+            lista.setId(r);
+        }
+        Dialog dialogView = dialog.getDialog();
+        EditText elemento = (EditText) dialogView.findViewById(R.id.etDialog);
+        elemento.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(elemento, InputMethodManager.SHOW_IMPLICIT);
+        ContenidoLista cl = new ContenidoLista();
+        cl.setNota(elemento.getText().toString());
+        cl.setIdlista(lista.getId());
+        long rid = presentador.onSaveContenidoLista(cl);
+        if(rid > 0 & cl.getId() == 0){
+            lista.setId(rid);
+        }
     }
 }
 

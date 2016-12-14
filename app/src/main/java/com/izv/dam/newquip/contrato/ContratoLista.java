@@ -1,5 +1,8 @@
 package com.izv.dam.newquip.contrato;
 
+import android.database.Cursor;
+
+import com.izv.dam.newquip.pojo.ContenidoLista;
 import com.izv.dam.newquip.pojo.Lista;
 
 /**
@@ -15,6 +18,13 @@ public interface ContratoLista {
 
         long saveLista(Lista n);
 
+        long saveContenidoLista(ContenidoLista cl);
+
+        void loadData(OnDataLoadListener oyente, long idLis);
+
+        interface OnDataLoadListener {
+            public void setCursor(Cursor c);
+        }
     }
 
     interface InterfacePresentador {
@@ -33,5 +43,7 @@ public interface ContratoLista {
         void mostrarLista(Lista n);
 
         void mostrarConfirmarBorrarLista(Lista l);
+
+        void mostrarDatosCL(Cursor c);
     }
 }
