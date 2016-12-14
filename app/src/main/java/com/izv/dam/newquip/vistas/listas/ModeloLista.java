@@ -1,7 +1,9 @@
 package com.izv.dam.newquip.vistas.listas;
 
 import android.content.Context;
+import android.net.Uri;
 
+import com.izv.dam.newquip.contrato.ContratoBaseDatos;
 import com.izv.dam.newquip.contrato.ContratoLista;
 import com.izv.dam.newquip.gestion.GestionLista;
 import com.izv.dam.newquip.gestion.GestionNota;
@@ -15,13 +17,15 @@ import static android.R.attr.id;
 
 public class ModeloLista implements ContratoLista.InterfaceModelo {
 
-
+    Context c;
     //GESTION
     private GestionLista gl = null;
 
-    public ModeloLista(Context c) {gl = new GestionLista(c);}
+    public ModeloLista(Context c){
+        this.c = c;
+        gl = new GestionLista(c);
+    }
 
-    Context c;
 
 
     //METODOS CL
@@ -48,8 +52,8 @@ public class ModeloLista implements ContratoLista.InterfaceModelo {
 
     private long updateLista(Lista l) {
         if(l.getTitulo().trim().compareTo("")==0 && l.getTitulo().trim().compareTo("")==0){
-            this.deleteLista(l);
-            gl.delete(l);
+            Uri u = Uri.withAppendedPath(ContratoBaseDatos.NOTA_URI, l.getId() + "");
+            c.getContentResolver().delete(u, null, null);
             return 0;
         }
         return gl.update(l);
@@ -59,6 +63,12 @@ public class ModeloLista implements ContratoLista.InterfaceModelo {
         if(l.getTitulo().trim().compareTo("")==0 && l.getTitulo().trim().compareTo("")==0){
             return 0;
         }
-        return gl.insert(l);
+        System.out.println("ID: " + ContratoBaseDatos.LISTA_URI);
+        Uri u = c.getContentResolver().insert(ContratoBaseDatos.LISTA_URI, l.getContentValues());
+        if (u.toString() != null){
+            return 1;
+        }else {
+            return 0;
+        }
     }
 }

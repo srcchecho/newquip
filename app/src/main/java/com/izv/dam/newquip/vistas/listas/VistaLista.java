@@ -3,6 +3,7 @@ package com.izv.dam.newquip.vistas.listas;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -117,6 +118,7 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
         long r = presentador.onSaveLista(lista);
         if (r > 0 & lista.getId() == 0) {
             lista.setId(r);
+
         }
     }
 
@@ -134,25 +136,9 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
             public void onClick(View v) {
                 Lista l = new Lista();
                 l.setTitulo(etTitulo.getText().toString());
-
-                //Recorrer ArrayLista
-                String todo = "";
-
-                for (EditText et : listaEt) {
-
-                    // json -> todo += "\"" + et.getText().toString()+ "\"" + ",";
-                }
-                //todo = "[" + todo + "]";
-                //Parte del array Lista
-                //l.setLista(todo);
-                //Toast.makeText(VistaLista.this, l.toString(), Toast.LENGTH_LONG).show();
-
-
                 presentador.onSaveLista(null);
             }
         });
-
-        //añadir edt -> EditText et = (EditText) findViewById(R.id.)
 
         ly = (LinearLayout) findViewById(R.id.lladdLista);
         b = (FloatingActionButton) findViewById(R.id.btnAddNuevo);

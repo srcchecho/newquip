@@ -2,6 +2,8 @@ package com.izv.dam.newquip.vistas.notas;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,9 +11,12 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaScannerConnection;
 import android.media.SoundPool;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -43,6 +48,8 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.CFFFont;
+import com.itextpdf.text.pdf.PdfImportedPage;
+import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.izv.dam.newquip.R;
 import com.izv.dam.newquip.contrato.ContratoNota;
@@ -85,6 +92,9 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
     private final int SELECT_PICTURE = 300;
 
     private String mPath;
+
+    //async
+    ProgressDialog pDialog;
 
     //imagen
     ImageView imagen, img;
@@ -166,7 +176,12 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
 
         if (id == R.id.pdf) {
             if(mayRequestStoragePermission()) {
-                crearPDF();
+                pDialog = new ProgressDialog(VistaNota.this);
+                pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                pDialog.setTitle("Espere, Por favor");
+                pDialog.setMessage("Generando PDF.........");
+                PDFAsync tarea2 = new PDFAsync(pDialog, VistaNota.this);
+                tarea2.execute();
             }
             return true;
         }
@@ -197,28 +212,65 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         return super.onOptionsItemSelected(item);
     }
 
+    class PDFAsync extends AsyncTask{
+
+        ProgressDialog progress;
+        VistaNota act;
+
+        public PDFAsync(ProgressDialog progress, VistaNota act) {
+            this.progress = progress;
+            this.act = act;
+        }
+
+        public void onPreExecute() {
+            progress.show();
+        }
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            for(int i=1; i<=10; i++) {
+                crearPDF();
+                progress.dismiss();
+
+                if(isCancelled())
+                    break;
+            }
+
+            return true;
+        }
+
+        @Override
+        protected void onCancelled() {
+            pDialog.dismiss();
+            Toast.makeText(getApplicationContext(), "Tarea cancelada!",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void crearPDF() {
-        File file = new File(Environment.getExternalStorageDirectory(), MEDIA_DIRECTORY2);
+        final File file = new File(Environment.getExternalStorageDirectory(), MEDIA_DIRECTORY2);
         boolean isDirectoryCreated = file.exists();
 
         if(!isDirectoryCreated) {
             isDirectoryCreated = file.mkdirs();
         }
         if(isDirectoryCreated) {
-            Document doc = new Document();
+            final Document doc = new Document();
             String outPath = null;
-            System.out.println("DATOS:" + nota.getTitulo());
+            String name = "";
             if ( nota.getTitulo() == null || nota.getTitulo().isEmpty() ){
                 Snackbar.make(getCurrentFocus(), "Debe guardar la nota para continuar", Snackbar.LENGTH_LONG).show();
             }else {
                 int tituloLong = nota.getTitulo().length();
                 if (tituloLong != 0) {
+                    name = nota.getTitulo() + "_" + nota.getId() + ".pdf";
                     outPath = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY2
-                            + File.separator + nota.getTitulo() + "_" + nota.getId() + ".pdf";
+                            + File.separator + name;
                 } else {
                     Long timestamp = System.currentTimeMillis() / 1000;
+                    name = timestamp.toString() + ".pdf";
                     outPath = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY2
-                            + File.separator + timestamp.toString() + ".pdf";
+                            + File.separator + name;
                 }
                 System.out.println("PATH:" + outPath);
                 try {
@@ -243,7 +295,19 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
                         doc.add((Element) image1);
                     }
                     doc.close();
-                    Snackbar.make(getCurrentFocus(), "PDF Generado con Exito!", Snackbar.LENGTH_LONG).show();
+                    final String finalName = name;
+                    final String path = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY2
+                            + File.separator;
+                    final File documento = new File(path + finalName);
+                    Snackbar.make(getCurrentFocus(), "PDF Generado con Exito!", Snackbar.LENGTH_LONG).setAction("Abrir", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setDataAndType(Uri.fromFile(documento), "application/pdf");
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            startActivity(intent);
+                        }
+                    }).show();
                 } catch (DocumentException e) {
                     e.printStackTrace();
                 } catch (FileNotFoundException e) {

@@ -37,7 +37,7 @@ public class ModeloNota implements ContratoNota.InterfaceModelo {
     public long saveNota(Nota n) {
         long r;
         if(n.getId()==0) {
-             r = this.insertNota(n);
+            r = this.insertNota(n);
         } else {
             r = this.updateNota(n);
         }
@@ -50,7 +50,7 @@ public class ModeloNota implements ContratoNota.InterfaceModelo {
         if(n.getNota().trim().compareTo("")==0 && n.getTitulo().trim().compareTo("")==0) {
             return 0;
         }
-        String where = "_ID" + n.getId();
+        System.out.println("ID NOTA: " + ContratoBaseDatos.NOTA_URI);
         Uri u = c.getContentResolver().insert(ContratoBaseDatos.NOTA_URI, n.getContentValues());
         if (u.toString() != null){
             return 1;
@@ -61,10 +61,11 @@ public class ModeloNota implements ContratoNota.InterfaceModelo {
 
     private long updateNota(Nota n) {
         if(n.getNota().trim().compareTo("")==0 && n.getTitulo().trim().compareTo("")==0) {
-            this.deleteNota(n);
-            gn.delete(n);
+            Uri u = Uri.withAppendedPath(ContratoBaseDatos.NOTA_URI, n.getId() + "");
+            c.getContentResolver().delete(u, null, null);
             return 0;
         }
-        return gn.update(n);
+        String where = "_ID = " + n.getId();
+        return c.getContentResolver().update(ContratoBaseDatos.NOTA_URI, n.getContentValues(), where, null);
     }
 }
