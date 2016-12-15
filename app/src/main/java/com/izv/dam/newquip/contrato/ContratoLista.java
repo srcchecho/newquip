@@ -20,7 +20,11 @@ public interface ContratoLista {
 
         long saveContenidoLista(ContenidoLista cl);
 
-        void loadData(OnDataLoadListener oyente, long idLis);
+        void loadData(OnDataLoadListener oyente, long id);
+
+        long deleteContenidoLista(ContenidoLista cl);
+
+        long deleteAllContenidoLista(long id);
 
         interface OnDataLoadListener {
             public void setCursor(Cursor c);

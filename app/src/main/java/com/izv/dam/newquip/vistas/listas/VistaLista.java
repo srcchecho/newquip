@@ -9,11 +9,11 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,7 +48,7 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
     //Guardar elementos lista en array
     private ArrayList<EditText> listaEt;
 
-    private PresentadorLista presentador;
+    public static PresentadorLista presentador;
     private EditText editTextTitulo;
     private Lista lista = new Lista();
     private Join join;
@@ -61,9 +61,19 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
 
         presentador = new PresentadorLista(this); //<-antes del init
 
-        init();
-
         editTextTitulo = (EditText) findViewById(R.id.tituloLista);
+
+        if (savedInstanceState != null) {
+            lista = savedInstanceState.getParcelable("lista");
+        } else {
+            Bundle b = getIntent().getExtras();
+            if (b != null) {
+                lista = b.getParcelable("lista");
+            }
+        }
+        mostrarLista(lista);
+
+        long idlista = lista.getId();
 
         adaptadorCL = new AdaptadorContenidoLista(this, null);
 
@@ -75,29 +85,17 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
         recyclerView.setLayoutManager(linear);
         recyclerView.setAdapter(adaptadorCL);
 
-        if (savedInstanceState != null) {
-            lista = savedInstanceState.getParcelable("lista");
-        } else {
-            Bundle b = getIntent().getExtras();
-            if (b != null) {
-                lista = b.getParcelable("lista");
-            }
-        }
-        mostrarLista(lista);
+        init();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_lista, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -121,6 +119,7 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
     }
 
     protected void onPause() {
+        System.out.println("prueba");
         saveLista();
         presentador.onPause();
         super.onPause();
@@ -141,8 +140,9 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
         long r = presentador.onSaveLista(lista);
         if (r > 0 & lista.getId() == 0) {
             lista.setId(r);
-
         }
+        presentador.setIdLis(lista.getId());
+        presentador.onResume();
     }
 
     @Override
@@ -176,6 +176,7 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
     @Override
     public void onBorrarPossitiveButtonClickL(Lista l) {
         presentador.onDeleteLista(l);
+
         Toast borrar =
                 Toast.makeText(getApplicationContext(),
                         "Borrado", Toast.LENGTH_SHORT);
@@ -202,10 +203,10 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
         adaptadorCL.changeCursor(c);
     }
 
-    @Override
+    //ELEMENTOS LISTA
+
     public void onPossitiveButtonClick(DialogFragment dialog) {
         //insertar elemento
-
         lista.setTitulo(editTextTitulo.getText().toString());
         long r = presentador.onSaveLista(lista);
         if (r > 0 & lista.getId() == 0) {
@@ -213,16 +214,17 @@ public class VistaLista extends AppCompatActivity implements ContratoLista.Inter
         }
         Dialog dialogView = dialog.getDialog();
         EditText elemento = (EditText) dialogView.findViewById(R.id.etDialog);
-        elemento.requestFocus();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(elemento, InputMethodManager.SHOW_IMPLICIT);
+
         ContenidoLista cl = new ContenidoLista();
         cl.setNota(elemento.getText().toString());
         cl.setIdlista(lista.getId());
         long rid = presentador.onSaveContenidoLista(cl);
-        if(rid > 0 & cl.getId() == 0){
-            lista.setId(rid);
+        if (rid > 0 & cl.getId() == 0) {
+            cl.setId(rid);
         }
-    }
-}
 
+        saveLista();
+        /*presentador.onResume();*/
+    }
+
+}

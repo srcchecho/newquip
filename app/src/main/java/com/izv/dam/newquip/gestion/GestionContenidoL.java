@@ -49,6 +49,10 @@ public class GestionContenidoL extends Gestion<ContenidoLista> {
         return this.delete(ContratoBaseDatos.TablaContenidoLista.TABLA, condicion, argumentos);
     }
 
+    public int delete(String condicion, String[] argumentos) {
+        return this.delete(ContratoBaseDatos.TablaContenidoLista.TABLA, condicion, argumentos);
+    }
+
     @Override
     public int update(ContenidoLista objeto) {
         ContentValues valores = objeto.getContentValues();

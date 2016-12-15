@@ -1,5 +1,6 @@
 package com.izv.dam.newquip.vistas.Tabbed;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -57,9 +58,17 @@ public class FragmentUnion extends Fragment {
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerU);
         recyclerView.setHasFixedSize(true);
 
-        StaggeredGridLayoutManager linear = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linear);
-        recyclerView.setAdapter(adapt);
+        int display_mode = getResources().getConfiguration().orientation;
+
+        if (display_mode == Configuration.ORIENTATION_PORTRAIT) {
+            StaggeredGridLayoutManager linear = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+            recyclerView.setLayoutManager(linear);
+            recyclerView.setAdapter(adapt);
+        } else {
+            StaggeredGridLayoutManager linear = new StaggeredGridLayoutManager(4,StaggeredGridLayoutManager.VERTICAL);
+            recyclerView.setLayoutManager(linear);
+            recyclerView.setAdapter(adapt);
+        }
         return rootView;
     }
 

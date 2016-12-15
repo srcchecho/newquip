@@ -136,7 +136,6 @@ public class Proveedor extends ContentProvider {
                 id = gestorNota.insert(values);
                 break;
             case TODO_LISTA:
-                Log.v("Prueba", "Peta aqui");
                 id = gestorLista.insert(values);
                 break;
         }
@@ -166,11 +165,9 @@ public class Proveedor extends ContentProvider {
                 valor = gestorNota.update(values, selection, newSelectionArgs);
                 break;
             case TODO_LISTA:
-                Log.v("Prueba", "Peta aqui");
                 valor = gestorLista.update(values, selection, selectionArgs);
                 break;
             case CONCRETO_LISTA:
-                Log.v("Prueba", "O alomejor aqui");
                 id = uri.getLastPathSegment();
                 selection = UtilCadenas.getCondicionesSql(selection, ContratoBaseDatos.TablaLista._ID + " = ? ");
                 newSelectionArgs = UtilCadenas.getNewArray(selectionArgs, id);

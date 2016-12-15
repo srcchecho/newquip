@@ -6,10 +6,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.izv.dam.newquip.R;
 import com.izv.dam.newquip.contrato.ContratoBaseDatos;
+import com.izv.dam.newquip.dialogo.DialogoLista;
+import com.izv.dam.newquip.pojo.ContenidoLista;
+import com.izv.dam.newquip.vistas.listas.PresentadorLista;
+import com.izv.dam.newquip.vistas.listas.VistaLista;
 
 /**
  * Created by dam on 17/11/2016.
@@ -20,7 +26,6 @@ public class AdaptadorContenidoLista extends RecyclerView.Adapter<AdaptadorConte
     private Cursor dataCursor;
     private long idlista;
     private static AdaptadorClickLista click;
-
 
     public AdaptadorContenidoLista(Context context, Cursor cursor) {
         this.context=context;
@@ -93,15 +98,29 @@ public class AdaptadorContenidoLista extends RecyclerView.Adapter<AdaptadorConte
         return 0;
     }
 
-    static class CListaViewHolder extends RecyclerView.ViewHolder {
+    class CListaViewHolder extends RecyclerView.ViewHolder {
 
         TextView etTituloCL;
+        ImageButton imgBtn;
 
         public CListaViewHolder(View itemView) {
             super(itemView);
             //itemView.setOnClickListener(this);
             //itemView.setOnLongClickListener(this);
             etTituloCL = (TextView) itemView.findViewById(R.id.tvTituloElemento);
+
+            imgBtn = (ImageButton) itemView.findViewById(R.id.deleteElemento);
+            imgBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int posicion = getAdapterPosition();
+                    AdaptadorContenidoLista.this.dataCursor.moveToPosition(posicion);
+                    ContenidoLista x = ContenidoLista.getContenidoLista(AdaptadorContenidoLista.this.dataCursor);
+                    VistaLista.presentador.onDeleteContenido(x);
+                    VistaLista.presentador.onResume();
+                }
+
+            });
         }
 
         /*@Override

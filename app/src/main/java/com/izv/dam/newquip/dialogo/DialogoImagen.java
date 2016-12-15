@@ -136,14 +136,14 @@ public class DialogoImagen extends DialogFragment {
                     String dir = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY + File.separator + TEMPORAL_PICTURE_NAME;
                     decodeBitmap(dir);
                 }
-            break;
+                break;
 
             case RESULT_LOAD_IMAGE:
                 if(resultCode == RESULT_OK){
                     Uri path = data.getData();
                     imagenL.setImageURI(path);
                 }
-            break;
+                break;
         }
     }
 

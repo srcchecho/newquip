@@ -91,4 +91,5 @@ public abstract class Gestion<T> {
         Cursor cursor = bd.query(tabla, columns, selection, selectionArgs, groupBy, having, orderBy);
         return cursor;
     }
+
 }

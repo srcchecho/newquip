@@ -6,10 +6,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.izv.dam.newquip.R;
 import com.izv.dam.newquip.contrato.ContratoBaseDatos;
+import com.izv.dam.newquip.gestion.GestionContenidoL;
+import com.izv.dam.newquip.gestion.GestionLista;
+import com.izv.dam.newquip.pojo.ContenidoLista;
+import com.izv.dam.newquip.vistas.listas.VistaLista;
 
 /**
  * Created by dam on 17/11/2016.
@@ -43,7 +49,6 @@ public class AdaptadorLista extends RecyclerView.Adapter<AdaptadorLista.ListaVie
         }else{
             holder.tvTituloL.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaLista.TITULO)));
         }
-
     }
 
     public Cursor getItem(int position) {
@@ -83,6 +88,7 @@ public class AdaptadorLista extends RecyclerView.Adapter<AdaptadorLista.ListaVie
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
             tvTituloL = (TextView) itemView.findViewById(R.id.tituloLista);
+
         }
 
         @Override
@@ -98,4 +104,5 @@ public class AdaptadorLista extends RecyclerView.Adapter<AdaptadorLista.ListaVie
             return true;
         }
     }
+
 }

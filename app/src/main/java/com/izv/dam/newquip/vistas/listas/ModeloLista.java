@@ -2,17 +2,12 @@ package com.izv.dam.newquip.vistas.listas;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 
-import com.izv.dam.newquip.contrato.ContratoBaseDatos;
 import com.izv.dam.newquip.contrato.ContratoLista;
 import com.izv.dam.newquip.gestion.GestionContenidoL;
 import com.izv.dam.newquip.gestion.GestionLista;
-import com.izv.dam.newquip.gestion.GestionNota;
 import com.izv.dam.newquip.pojo.ContenidoLista;
 import com.izv.dam.newquip.pojo.Lista;
-
-import static android.R.attr.id;
 
 /**
  * Created by dam on 18/10/16.
@@ -20,18 +15,17 @@ import static android.R.attr.id;
 
 public class ModeloLista implements ContratoLista.InterfaceModelo {
 
-    Context c;
+
     //GESTION
     private GestionLista gl = null;
+    Context c;
     private GestionContenidoL gcl = null;
     private Cursor cursor, cursorcl;
 
     public ModeloLista(Context c) {
-        this.c = c;
         gl = new GestionLista(c);
         gcl = new GestionContenidoL(c);
     }
-
 
 
     //METODOS CL
@@ -58,24 +52,21 @@ public class ModeloLista implements ContratoLista.InterfaceModelo {
 
     private long updateLista(Lista l) {
         if(l.getTitulo().trim().compareTo("")==0 && l.getTitulo().trim().compareTo("")==0){
-            Uri u = Uri.withAppendedPath(ContratoBaseDatos.NOTA_URI, l.getId() + "");
-            c.getContentResolver().delete(u, null, null);
+            this.deleteLista(l);
+            gl.delete(l);
             return 0;
         }
-        return c.getContentResolver().update(ContratoBaseDatos.LISTA_URI, l.getContentValues(), null, null);
+        return gl.update(l);
     }
 
     private long insertLista(Lista l){
         if(l.getTitulo().trim().compareTo("")==0 && l.getTitulo().trim().compareTo("")==0){
             return 0;
         }
-        Uri u = c.getContentResolver().insert(ContratoBaseDatos.LISTA_URI, l.getContentValues());
-        if (u.toString() != null){
-            return 1;
-        }else {
-            return 0;
-        }
+        return gl.insert(l);
     }
+
+    //contenidoLista
 
     @Override
     public long saveContenidoLista(ContenidoLista cl) {
@@ -90,6 +81,7 @@ public class ModeloLista implements ContratoLista.InterfaceModelo {
 
 
     public void loadData(OnDataLoadListener listener, long idlista) {
+        System.out.println("idlista: " + idlista);
         cursor = gcl.getCursor(idlista);
         listener.setCursor(cursor);
     }
@@ -110,5 +102,11 @@ public class ModeloLista implements ContratoLista.InterfaceModelo {
         return gcl.update(cl);
     }
 
-    private long deleteContenidoLista(ContenidoLista cl) {return gcl.delete(cl);}
+
+    public long deleteContenidoLista(ContenidoLista cl) {return gcl.delete(cl);}
+
+    public long deleteAllContenidoLista(long id) {
+        String condicion = "idlista = " + id;
+        return gcl.delete(condicion, null);
+    }
 }

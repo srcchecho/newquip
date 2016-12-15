@@ -416,9 +416,9 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
 
     /* * Metodos con los que se abre el selector de imagenes de la galeria */
     public void abrirGaleria() {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/*");
-            startActivityForResult(intent, RESULT_LOAD_IMAGE);
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, RESULT_LOAD_IMAGE);
     }
 
     public void abrirCamara(){
@@ -493,7 +493,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
 
 
                 }
-            break;
+                break;
             case PHOTO_CODE://camara
                 MediaScannerConnection.scanFile(this,
                         new String[]{mPath}, null,

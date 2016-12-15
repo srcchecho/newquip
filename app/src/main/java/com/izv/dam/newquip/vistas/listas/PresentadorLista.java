@@ -37,6 +37,12 @@ public class PresentadorLista implements ContratoLista.InterfacePresentador {
         this.modelo.loadData(oyente, getIdLis());
     }
 
+    public void refrescar(){
+
+        this.modelo.loadData(oyente, getIdLis());
+    }
+
+
     public long getIdLis() {
         return idLis;
     }
@@ -45,11 +51,18 @@ public class PresentadorLista implements ContratoLista.InterfacePresentador {
         this.idLis = idLis;
     }
 
-    public long onSaveLista(Lista l) { return this.modelo.saveLista(l); }
+    public long onSaveLista(Lista l) {
+        return this.modelo.saveLista(l);
+    }
+
+    public long onDeleteContenido(ContenidoLista cl){
+        return this.modelo.deleteContenidoLista(cl);
+    }
 
     @Override
-    public long onDeleteLista(Lista n){
-        return this.modelo.deleteLista(n);
+    public long onDeleteLista(Lista l){
+        this.modelo.deleteAllContenidoLista(l.getId());
+        return this.modelo.deleteLista(l);
     }
 
     public long onSaveContenidoLista(ContenidoLista cl) { return this.modelo.saveContenidoLista(cl); }

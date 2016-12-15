@@ -63,8 +63,8 @@ public class AdaptadorJoin extends RecyclerView.Adapter<AdaptadorJoin.JoinViewHo
     public void onBindViewHolder(JoinViewHolder holder, int position) {
         final Cursor cursor = getItem(position);
         if(dataCursor != null) {
+            //NOTAS
             if (getItemViewType(position) == 1) {
-                System.out.println("NOTAS");
                 holder.tvTitulo.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaNota.TITULO)));
                 holder.notaT.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaNota.NOTA)));
                 if (cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaNota.TITULO)).trim().compareTo("") == 0) {
@@ -74,7 +74,7 @@ public class AdaptadorJoin extends RecyclerView.Adapter<AdaptadorJoin.JoinViewHo
                 }
             }
             if (getItemViewType(position) == 2) {
-                System.out.println("LISTAS");
+                //LISTAS
                 holder.tituloL.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaLista.TITULO)));
                 if (cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaLista.TITULO)).trim().compareTo("") == 0) {
                     holder.tituloL.setText(cursor.getString(cursor.getColumnIndex(ContratoBaseDatos.TablaLista.TITULO)));
@@ -95,7 +95,6 @@ public class AdaptadorJoin extends RecyclerView.Adapter<AdaptadorJoin.JoinViewHo
     }
 
     public Cursor changeCursorJ(Cursor cursor){
-        Log.v("Creo que casco aqui", "asdadsa");
         if(dataCursor == cursor){
             return null;
         }
@@ -137,14 +136,12 @@ public class AdaptadorJoin extends RecyclerView.Adapter<AdaptadorJoin.JoinViewHo
         @Override
         public void onClick(View v) {
             int posicion = getAdapterPosition();
-            System.out.println("TIPOx:" + type);
             click.onItemClickListenerJ(posicion);
         }
 
         @Override
         public boolean onLongClick(View v) {
             int posicion = getAdapterPosition();
-            System.out.println("TIPOy:" + type);
             click.onItemLongClickListenerJ(posicion);
             return false;
         }
